@@ -51,7 +51,7 @@ def payback(deploy_contract, propose_loans, account):
     propose_loans
     lend
     amount_borrowed = contract.activeLoans(lender, borrower)[0]
-    amount_borrowed_interest = contract.activeLoans(lender, borrower)[1]
+    amount_borrowed_interest = contract.activeLoans(lender, borrower)[6]
     total_debt = amount_borrowed + amount_borrowed_interest
     contract.payback(lender, {"from": borrower, "value": total_debt})
 
@@ -196,31 +196,45 @@ class TestLending:
 
 # Tests everything having to do with the payback functions
 class TestPayback:
-    def test_payback(self, deploy_contract, propose_loans, lend, payback, account):
+    def test_payback_non_fractional(
+        self, deploy_contract, propose_loans, lend, account
+    ):
         borrower = account
         lender = accounts[1]
-        deploy_contract
+        contract = deploy_contract
+        initial_amount = contract.activeLoans(lender, borrower)[0]
+        # Fractional will be equal to zero since this tests a non fractional loan
+        fractional_amount = contract.activeLoans(lender, borrower)[2]
+        total_amount = initial_amount + fractional_amount
         propose_loans
         lend
-        payback
+        contract.payback(lender, {"from": borrower, "value": total_amount})
         assert lender.balance() == w3.toWei(100.05, "ether")
         assert borrower.balance() == w3.toWei(99.95, "ether")
 
     # Confirms that the new debt owner gets paid back when borrower makes payment
-    def test_sold_debt_payback(
-        self, deploy_contract, propose_loans, lend, list_loan, buy_loan, account
+    def test_fractional_loan_payback(
+        self, deploy_contract, propose_loans, lend, account
     ):
         borrower = account
-        accounts[1]
+        lender = accounts[1]
         buyer = accounts[2]
         contract = deploy_contract
         propose_loans
         lend
-        list_loan
-        buy_loan
-        contract.payback(buyer, {"from": borrower, "value": w3.toWei(1.05, "ether")})
-        assert buyer.balance() == w3.toWei(100.05, "ether")
+        contract.listLoan(borrower, w3.toWei(0.5, "ether"), 50, {"from": lender})
+        for_sale_price = contract.activeLoans(lender, borrower)[4]
+        contract.buyLoan(lender, borrower, {"from": buyer, "value": for_sale_price})
+        initial_amount = contract.activeLoans(lender, borrower)[0]
+        fractional_amount = contract.activeLoans(lender, borrower)[6]
+        total_amount = initial_amount + fractional_amount
+        contract.payback(lender, {"from": borrower, "value": total_amount})
+        print(borrower.balance())
+        print(lender.balance())
+        print(buyer.balance())
         assert borrower.balance() == w3.toWei(99.95, "ether")
+        assert lender.balance() == w3.toWei(100.025, "ether")
+        assert buyer.balance() == w3.toWei(100.025, "ether")
 
     def test_proposed_loan_is_active_reverts(self, deploy_contract, account):
         with brownie.reverts("Nonexistant loan cannot be paid back"):
@@ -336,7 +350,7 @@ class TestBuyLoans:
     def test_buy_loan_no_active_loan_revert(
         self, deploy_contract, propose_loans, lend, account
     ):
-        with brownie.reverts("Loan either does not exist or is not for sale"):
+        with brownie.reverts("Loan does not exist"):
             contract = deploy_contract
             propose_loans
             lend
@@ -345,7 +359,7 @@ class TestBuyLoans:
     def test_buy_loan_wrong_amount_revert(
         self, deploy_contract, propose_loans, lend, list_loan, account
     ):
-        with brownie.reverts("Loan either does not exist or is not for sale"):
+        with brownie.reverts("Not the correct amount of ether"):
             contract = deploy_contract
             propose_loans
             lend
