@@ -76,21 +76,23 @@ contract Loans {
 
     //Borrower's call this function to pay back their loan
     function payback(address payable _lender) public payable {
-        //Caluculates total borrower debt. Base loan + interest amount
-        // uint256 debt = activeLoans[_lender][msg.sender].amount +
-        //     activeLoans[_lender][msg.sender].interestAmount;
-        // require(
-        //     activeLoans[_lender][msg.sender].isActive == true,
-        //     "Nonexistant loan cannot be paid back"
-        // );
-        // //Ensures the amount of ETH paid back matches how much is owed
-        // require(msg.value == debt, "Amount paid back has to be exact");
-        // (bool success, ) = _lender.call{value: debt}("");
-        // require(success, "Transaction failed");
-        // (bool accept, ) = activeLoans[_lender][msg.sender].fractionalOwner.call{
-        //     value: activeLoans[_lender][msg.sender].
-        // }("");
-        // require(accept, "Transaction failed");
+        // Caluculates total borrower debt. Base loan + interest amount
+        uint256 totalDebt = activeLoans[_lender][msg.sender].amount +
+            activeLoans[_lender][msg.sender].loanFractionAmount;
+        require(
+            activeLoans[_lender][msg.sender].isActive == true,
+            "Nonexistant loan cannot be paid back"
+        );
+        //Ensures the amount of ETH paid back matches how much is owed
+        require(msg.value == totalDebt, "Amount paid back has to be exact");
+        (bool success, ) = _lender.call{
+            value: activeLoans[_lender][msg.sender].amount
+        }("");
+        require(success, "Transaction failed");
+        (bool accept, ) = activeLoans[_lender][msg.sender].fractionalOwner.call{
+            value: activeLoans[_lender][msg.sender].loanFractionAmount
+        }("");
+        require(accept, "Transaction failed");
     }
 
     //Lenders can call this function to sell off their loan to someone else
@@ -132,14 +134,15 @@ contract Loans {
             activeLoans[msg.sender][_borrower].isForSale = false;
             delete activeLoans[_lender][_borrower];
         } else {
-            /* The loan fraction amount only calculates when the loan is owned by two parties.
-            E.G. the loan percentage is less than 100 
+            /* The loan fraction amount only calculates if the loan is to be owned by two parties
+            E.G. One party does not own 100 percent of loan
             This was done to save gas */
             uint256 totalAmount = activeLoans[_lender][_borrower].amount +
                 activeLoans[_lender][_borrower].interestAmount;
             uint256 loanFractionAmountTotal = (totalAmount *
                 (activeLoans[_lender][_borrower].loanFractionPercentage *
                     10**18)) / (100 * 10**18);
+            //Assigns amounts and percentage split and updates struct fields
             activeLoans[_lender][_borrower]
                 .loanFractionAmount = loanFractionAmountTotal;
             activeLoans[_lender][_borrower].amount =
