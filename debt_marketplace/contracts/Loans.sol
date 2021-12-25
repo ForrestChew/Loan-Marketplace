@@ -76,23 +76,42 @@ contract Loans {
 
     //Borrower's call this function to pay back their loan
     function payback(address payable _lender) public payable {
-        // Caluculates total borrower debt. Base loan + interest amount
-        uint256 totalDebt = activeLoans[_lender][msg.sender].amount +
-            activeLoans[_lender][msg.sender].loanFractionAmount;
         require(
             activeLoans[_lender][msg.sender].isActive == true,
             "Nonexistant loan cannot be paid back"
         );
-        //Ensures the amount of ETH paid back matches how much is owed
-        require(msg.value == totalDebt, "Amount paid back has to be exact");
-        (bool success, ) = _lender.call{
-            value: activeLoans[_lender][msg.sender].amount
-        }("");
-        require(success, "Transaction failed");
-        (bool accept, ) = activeLoans[_lender][msg.sender].fractionalOwner.call{
-            value: activeLoans[_lender][msg.sender].loanFractionAmount
-        }("");
-        require(accept, "Transaction failed");
+        if (activeLoans[_lender][msg.sender].fractionalOwner != address(0)) {
+            // Caluculates total borrower debt. Base loan + interest amount
+            uint256 totalDebtFractional = activeLoans[_lender][msg.sender]
+                .amount + activeLoans[_lender][msg.sender].loanFractionAmount;
+            //Ensures the amount of ETH paid back matches how much is owed
+            require(
+                msg.value == totalDebtFractional,
+                "Amount paid back has to be exact aa"
+            );
+            (bool success, ) = _lender.call{
+                value: activeLoans[_lender][msg.sender].amount
+            }("");
+            require(success, "Transaction failed");
+            (bool accept, ) = activeLoans[_lender][msg.sender]
+                .fractionalOwner
+                .call{
+                value: activeLoans[_lender][msg.sender].loanFractionAmount
+            }("");
+            require(accept, "Transaction failed");
+        } else {
+            uint256 totalDebtFull = activeLoans[_lender][msg.sender].amount +
+                activeLoans[_lender][msg.sender].interestAmount;
+            require(
+                msg.value == totalDebtFull,
+                "Amount paid back has to be exact"
+            );
+            (bool success, ) = _lender.call{
+                value: activeLoans[_lender][msg.sender].amount +
+                    activeLoans[_lender][msg.sender].interestAmount
+            }("");
+            require(success, "Transaction failed");
+        }
     }
 
     //Lenders can call this function to sell off their loan to someone else
@@ -120,9 +139,12 @@ contract Loans {
         payable
     {
         require(
-            activeLoans[_lender][_borrower].isForSale == true &&
-                msg.value == activeLoans[_lender][_borrower].forSalePrice,
-            "Loan either does not exist or is not for sale"
+            activeLoans[_lender][_borrower].isForSale == true,
+            "Loan does not exist"
+        );
+        require(
+            msg.value == activeLoans[_lender][_borrower].forSalePrice,
+            "Not the correct amount of ether"
         );
         //Calculates the fractional split amount if a lender wants to sell less than 100% of loan
         if (activeLoans[_lender][_borrower].loanFractionPercentage == 100) {
