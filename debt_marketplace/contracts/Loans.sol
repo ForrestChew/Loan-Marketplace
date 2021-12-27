@@ -72,8 +72,7 @@ contract Loans {
             proposedLoans[_borrower].interestPercentage,
             proposedLoans[_borrower].interestAmount,
             proposedLoans[_borrower].duration,
-            /*Locks the current timestamp to the loan in order to find the 
-            difference from when the loan began to end of duration*/
+            // Locks the current timestamp to the loan
             block.timestamp,
             0,
             0,
@@ -176,6 +175,7 @@ contract Loans {
                 _borrower
             ];
             activeLoans[msg.sender][_borrower].loanFractionPercentage = 0;
+            activeLoans[msg.sender][_borrower].forSalePrice = 0;
             activeLoans[msg.sender][_borrower].isForSale = false;
             delete activeLoans[_lender][_borrower];
         } else {
