@@ -7,29 +7,42 @@ contract Loans {
         uint256 interestPercentage; //1
         uint256 interestAmount; //2
         uint256 duration; //3
-        uint256 forSalePrice; //4
-        uint256 loanFractionPercentage; //5 //Percentage split if lender decides to sell borrowers debt fractionally
-        uint256 loanFractionAmount; //6
-        address fractionalOwner; //7
-        bool isProposed; //8
-        bool isActive; //9
-        bool isForSale; //10
+        uint256 timestampStart; //4
+        uint256 forSalePrice; //5
+        uint256 loanFractionPercentage; //6 //Percentage split if lender decides to sell borrowers debt fractionally
+        uint256 loanFractionAmount; //7
+        address fractionalOwner; //8
+        bool isProposed; //9
+        bool isActive; //10
+        bool isForSale; //11
     }
+    mapping(address => bool) public isBlackListed;
     mapping(address => Loan) public proposedLoans;
     mapping(address => mapping(address => Loan)) public activeLoans;
+
+    event Proposal(
+        uint256 _amount,
+        uint256 _interestPercentage,
+        uint256 _duration,
+        address indexed _proposer
+    );
+
+    event ProposalFilled(address indexed _lender, address indexed _borrower);
+    //Accounts who do not repay debts get blacklisted from using the lending platform
+    event Blacklisted(address indexed indebted);
 
     function proposeLoan(
         uint256 _amount,
         uint256 _interesetRatePercent,
         uint256 _duration
-    ) external {
-        uint256 interestRateAmount = (_amount *
-            _interesetRatePercent *
-            10**18) / (100 * 10**18);
+    ) external blackListedCheck {
         require(
             proposedLoans[msg.sender].isProposed == false,
             "Account already has proposed loan or has active loan"
         );
+        uint256 interestRateAmount = (_amount *
+            _interesetRatePercent *
+            10**18) / (100 * 10**18);
         proposedLoans[msg.sender] = Loan(
             _amount,
             _interesetRatePercent,
@@ -38,14 +51,16 @@ contract Loans {
             0,
             0,
             0,
+            0,
             address(0),
             true, //isProposed
             false, //isActive
             false //isForSale
         );
+        emit Proposal(_amount, _interesetRatePercent, _duration, msg.sender);
     }
 
-    function lend(address payable _borrower) public payable {
+    function lend(address payable _borrower) public payable blackListedCheck {
         //make sure loan exits and not active
         require(
             proposedLoans[_borrower].isProposed == true,
@@ -57,6 +72,9 @@ contract Loans {
             proposedLoans[_borrower].interestPercentage,
             proposedLoans[_borrower].interestAmount,
             proposedLoans[_borrower].duration,
+            /*Locks the current timestamp to the loan in order to find the 
+            difference from when the loan began to end of duration*/
+            block.timestamp,
             0,
             0,
             0,
@@ -72,6 +90,7 @@ contract Loans {
         //Transfers proposed loan amount from lender to borrower
         (bool success, ) = _borrower.call{value: amountToLend}("");
         require(success, "Transaction failed");
+        emit ProposalFilled(msg.sender, _borrower);
     }
 
     //Borrower's call this function to pay back their loan
@@ -80,11 +99,13 @@ contract Loans {
             activeLoans[_lender][msg.sender].isActive == true,
             "Nonexistant loan cannot be paid back"
         );
+        /*The if block will run when loan is fractional. The amount each lender gets is
+        calculated and transfered to their account*/
         if (activeLoans[_lender][msg.sender].fractionalOwner != address(0)) {
             // Caluculates total borrower debt. Base loan + interest amount
             uint256 totalDebtFractional = activeLoans[_lender][msg.sender]
                 .amount + activeLoans[_lender][msg.sender].loanFractionAmount;
-            //Ensures the amount of ETH paid back matches how much is owed
+            //Ensures the correct amount of ETH is paid back
             require(
                 msg.value == totalDebtFractional,
                 "Amount paid back has to be exact aa"
@@ -99,6 +120,7 @@ contract Loans {
                 value: activeLoans[_lender][msg.sender].loanFractionAmount
             }("");
             require(accept, "Transaction failed");
+            // The else block is run if the loan has only one owner
         } else {
             uint256 totalDebtFull = activeLoans[_lender][msg.sender].amount +
                 activeLoans[_lender][msg.sender].interestAmount;
@@ -119,7 +141,7 @@ contract Loans {
         address _borrower,
         uint256 _salePrice,
         uint256 _loanFraction
-    ) external {
+    ) external blackListedCheck {
         require(
             activeLoans[msg.sender][_borrower].isActive == true,
             "You do not have the rights to sell this loan"
@@ -137,6 +159,7 @@ contract Loans {
     function buyLoan(address payable _lender, address _borrower)
         external
         payable
+        blackListedCheck
     {
         require(
             activeLoans[_lender][_borrower].isForSale == true,
@@ -176,4 +199,27 @@ contract Loans {
         (bool success, ) = _lender.call{value: msg.value}("");
         require(success, "Transaction failed");
     }
+
+    function blackListAddress(address _borrower) external {
+        require(activeLoans[msg.sender][_borrower].isActive, "Loan not active");
+        require(
+            block.timestamp -
+                activeLoans[msg.sender][_borrower].timestampStart >=
+                activeLoans[msg.sender][_borrower].duration,
+            "Loan has not expired yet"
+        );
+        isBlackListed[_borrower] = true;
+        emit Blacklisted(_borrower);
+    }
+
+    modifier blackListedCheck() {
+        // Checks if the function caller's address is blacklisted
+        require(
+            isBlackListed[msg.sender] == false,
+            "This address is blacklisted"
+        );
+        _;
+    }
 }
+
+//MAKE SURE TO REMOVE ALL "== true" IN REQUIREMENT STATEMENTS SINCE THEY ALREADY ASK IF THEY ARE TRUE OR NOT
