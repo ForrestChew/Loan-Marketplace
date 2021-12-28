@@ -63,7 +63,7 @@ contract Loans {
     function lend(address payable _borrower) public payable blackListedCheck {
         //make sure loan exits and not active
         require(
-            proposedLoans[_borrower].isProposed == true,
+            proposedLoans[_borrower].isProposed,
             "Account has no active loan proposals"
         );
         // assign ownership of the loan and updates loan status to being active
@@ -95,7 +95,7 @@ contract Loans {
     //Borrower's call this function to pay back their loan
     function payback(address payable _lender) public payable {
         require(
-            activeLoans[_lender][msg.sender].isActive == true,
+            activeLoans[_lender][msg.sender].isActive,
             "Nonexistant loan cannot be paid back"
         );
         /*The if block will run when loan is fractional. The amount each lender gets is
@@ -142,7 +142,7 @@ contract Loans {
         uint256 _loanFraction
     ) external blackListedCheck {
         require(
-            activeLoans[msg.sender][_borrower].isActive == true,
+            activeLoans[msg.sender][_borrower].isActive,
             "You do not have the rights to sell this loan"
         );
         require(
@@ -161,7 +161,7 @@ contract Loans {
         blackListedCheck
     {
         require(
-            activeLoans[_lender][_borrower].isForSale == true,
+            activeLoans[_lender][_borrower].isForSale,
             "Loan does not exist"
         );
         require(
