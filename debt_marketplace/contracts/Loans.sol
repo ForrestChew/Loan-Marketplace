@@ -107,7 +107,7 @@ contract Loans {
             //Ensures the correct amount of ETH is paid back
             require(
                 msg.value == totalDebtFractional,
-                "Amount paid back has to be exact aa"
+                "Amount paid back has to be exact"
             );
             (bool success, ) = _lender.call{
                 value: activeLoans[_lender][msg.sender].amount
@@ -187,7 +187,7 @@ contract Loans {
             uint256 loanFractionAmountTotal = (totalAmount *
                 (activeLoans[_lender][_borrower].loanFractionPercentage *
                     10**18)) / (100 * 10**18);
-            //Assigns amounts and percentage split and updates struct fields
+            //Assigns amounts and percentage split of target loan and updates struct fields
             activeLoans[_lender][_borrower]
                 .loanFractionAmount = loanFractionAmountTotal;
             activeLoans[_lender][_borrower].amount =
@@ -221,5 +221,3 @@ contract Loans {
         _;
     }
 }
-
-//MAKE SURE TO REMOVE ALL "== true" IN REQUIREMENT STATEMENTS SINCE THEY ALREADY ASK IF THEY ARE TRUE OR NOT
