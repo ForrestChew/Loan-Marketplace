@@ -5,7 +5,7 @@ from web3 import Web3
 w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
 
 
-def test_proposed_amount(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_amount(deploy_contract, propose_loans, lend, account):
     contract = deploy_contract
     propose_loans
     lend
@@ -13,7 +13,9 @@ def test_proposed_amount(deploy_contract, propose_loans, lend, account):
     assert loan_amount == 0
 
 
-def test_proposed_interest_percent(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_interest_percent(
+    deploy_contract, propose_loans, lend, account
+):
     contract = deploy_contract
     propose_loans
     lend
@@ -21,7 +23,9 @@ def test_proposed_interest_percent(deploy_contract, propose_loans, lend, account
     assert interest_rate_percent == 0
 
 
-def test_proposed_interest_amount(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_interest_amount(
+    deploy_contract, propose_loans, lend, account
+):
     contract = deploy_contract
     propose_loans
     lend
@@ -29,7 +33,7 @@ def test_proposed_interest_amount(deploy_contract, propose_loans, lend, account)
     assert interest_rate_amount == 0
 
 
-def test_proposed_loan_duration(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_loan_duration(deploy_contract, propose_loans, lend, account):
     contract = deploy_contract
     propose_loans
     lend
@@ -37,7 +41,7 @@ def test_proposed_loan_duration(deploy_contract, propose_loans, lend, account):
     assert active_loan_duration == 0
 
 
-def test_proposed_loan_duration(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_loan_duration(deploy_contract, propose_loans, lend, account):
     contract = deploy_contract
     propose_loans
     lend
@@ -45,7 +49,7 @@ def test_proposed_loan_duration(deploy_contract, propose_loans, lend, account):
     assert start_timestamp == 0
 
 
-def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     contract = deploy_contract
     propose_loans
     lend
@@ -53,7 +57,7 @@ def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     assert active_loan_sale_price == 0
 
 
-def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     contract = deploy_contract
     propose_loans
     lend
@@ -61,7 +65,7 @@ def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     assert loan_fraction_percentage == 0
 
 
-def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     contract = deploy_contract
     propose_loans
     lend
@@ -69,7 +73,7 @@ def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     assert loan_fraction_amount == 0
 
 
-def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     contract = deploy_contract
     propose_loans
     lend
@@ -77,7 +81,7 @@ def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     assert fractiona_owner == "0x0000000000000000000000000000000000000000"
 
 
-def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     contract = deploy_contract
     propose_loans
     lend
@@ -85,7 +89,7 @@ def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     assert is_proposed == False
 
 
-def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     contract = deploy_contract
     propose_loans
     lend
@@ -93,7 +97,7 @@ def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     assert is_active == False
 
 
-def test_proposed_sale_price(deploy_contract, propose_loans, lend, account):
+def test_deleted_proposed_sale_price(deploy_contract, propose_loans, lend, account):
     contract = deploy_contract
     propose_loans
     lend

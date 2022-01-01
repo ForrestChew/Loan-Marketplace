@@ -1,0 +1,23 @@
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #121212;
+}
+
+.list-item {
+  display: block;
+  color: white;
+  text-align: center;
+  font-family: "impact";
+  font-size: 28px;
+  letter-spacing: 2px;
+  padding: 30px 32px;
+  text-decoration: none;
+  float: left;
+}
+
+.list-item:hover {
+  cursor: pointer;
+}
