@@ -1,3 +1,3 @@
-const loansAddress = '0xbbE0A44Fa4e4Ea226b14bF4de6fB5b512A1D433f';
+const loansAddress = '0x7ed407881A3D0d65e0bb3Bf29a7EC1DAB869e9C7';
 
 export default loansAddress;
