@@ -1,9 +1,10 @@
-import React from 'react'
 import { useMoralis } from 'react-moralis';
 import { NavLink } from 'react-router-dom';
+import CryptoLogin from './CryptoLogin';
+import UserAddress from './UserAddress';
 
 const NavBar = () => {
-    const {authenticate} = useMoralis()
+    const { isAuthenticated } = useMoralis();
     return (
             <nav className='navbar'>
                 <NavLink 
@@ -35,23 +36,7 @@ const NavBar = () => {
                     >
                         LEND
                 </NavLink>
-                <div 
-                className='list-item'
-                onClick={() => authenticate()} 
-                style={{
-                    display: 'block',
-                    color: 'white',
-                    textAlign: 'center',
-                    fontFamily: 'impact',
-                    fontSize: '28px',
-                    letterSpacing: '2px',
-                    padding: '30px 30px',
-                    textDecoration: 'none',
-                    float: 'right', 
-                    border: 'solid 3.5px white'}}
-                >
-                    Crypto Login
-                </div>
+                {isAuthenticated ? <UserAddress /> : <CryptoLogin />}     
         </nav>
     )
 }
