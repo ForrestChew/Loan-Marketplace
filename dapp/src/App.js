@@ -3,9 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import About from './components/About';
 import BrowseLoans from './components/BrowseLoans';
 import NavBar from './components/NavBar';
-import ProposeLoan from './components/ProposeLoan';
+import ProposeLoan from './components/LoanProposals/ProposeLoan';
 import Lend from './components/Lend';
-import { useMoralis } from 'react-moralis';
 
 function App() {
     return (

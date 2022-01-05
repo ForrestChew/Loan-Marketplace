@@ -212,6 +212,14 @@ contract Loans {
         emit Blacklisted(_borrower);
     }
 
+    function viewLoanProposals(address _borrower)
+        public
+        view
+        returns (Loan memory)
+    {
+        return proposedLoans[_borrower];
+    }
+
     modifier blackListedCheck() {
         // Checks if the function caller's address is blacklisted
         require(

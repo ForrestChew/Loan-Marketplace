@@ -7,6 +7,7 @@ const CryptoLogin = () => {
         <button 
         className="crypto-login"
         onClick={authenticate}
+        style={{float: 'right'}}
         >
             Crypto Login
         </button>

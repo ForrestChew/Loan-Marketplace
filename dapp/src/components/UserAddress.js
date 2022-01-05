@@ -3,7 +3,7 @@ import { useMoralis } from "react-moralis";
 export const UserAddress = () => {
     const { logout, user } = useMoralis();
     const ethAddressStart = user.get('ethAddress').substring(0, 6);
-    const ethAddressEnd = user.get('ethAddress').slice(-6);
+    const ethAddressEnd = user.get('ethAddress').slice(-5);
     return (
         <>
             <button 
@@ -11,7 +11,7 @@ export const UserAddress = () => {
             data-hover="Logout"
             onClick={logout}
             >
-                {`${ethAddressStart}...${ethAddressEnd}`}
+                {`${ethAddressStart}....${ethAddressEnd}`}
             </button>
         </>
     )
