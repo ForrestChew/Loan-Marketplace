@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import About from './components/About';
-import BrowseLoans from './components/BrowseLoans';
+import BrowseLoans from './components/Loans/BrowseLoans';
 import NavBar from './components/NavBar';
 import ProposeLoan from './components/LoanProposals/ProposeLoan';
 import Lend from './components/Lend';

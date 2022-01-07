@@ -9,10 +9,10 @@ const ReactRouterMain = () => {
     return (
         <Router>
             <NavBar />
-                <Route exact path='/about'>
+                <Route  path='/about'>
                     <About />
                 </Route>
-                <Route exact path='/browseloans'>
+                <Route path='/browseloans'>
                     <BrowseLoans />
                 </Route>
                 <Route path='/proposeloan'>
