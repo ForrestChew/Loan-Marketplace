@@ -8,7 +8,7 @@
   display: block;
   color: #f5f5f5;
   text-align: center;
-  font-family: "impact";
+  font-family: "Trebuchet MS";
   font-size: 28px;
   letter-spacing: 2px;
   padding: 30px 32px;
@@ -20,28 +20,28 @@
   display: block;
   color: #f5f5f5;
   text-align: center;
-  font-family: "impact";
+  text-decoration: none;
+  font-family: "Trebuchet MS";
   font-size: 28px;
   letter-spacing: 2px;
   padding: 30px 32px;
   float: left;
+  border-bottom: solid 3px white;
 }
 
 .list-item:hover {
-  color: #121212;
-  background-color: #f5f5f5;
   cursor: pointer;
 }
 
 .crypto-login {
   height: 95px;
   width: 225px;
-  font-family: "impact";
+  font-family: "Trebuchet MS";
   font-size: 28px;
   color: #121212;
   background-color: #f5f5f5;
   float: right;
-  border: 10px solid #121212;
+  border: 12px solid #121212;
 }
 
 .crypto-login:hover {
@@ -54,7 +54,7 @@
 .btn {
   text-align: center;
   cursor: pointer;
-  font-family: "impact";
+  font-family: "Trebuchet MS";
   font-size: 20px;
 }
 

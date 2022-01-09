@@ -1,24 +1,40 @@
+import { useState, useEffect, useRef } from 'react';
 import { useMoralis } from 'react-moralis';
-import abi from '../../ABIs/abi';
-import loansAddress from '../../ABIs/address';
+import Card from '../cards/Card';
 
 const BrowseLoans = () => {
     const { Moralis } = useMoralis();
-    
-    const viewLoans = async () => {
-        const web3 = await Moralis.enableWeb3();
-        const query = new Moralis.Query('Loan');
-        const allLoans = await query.find();
-        const loans = allLoans.map((loan) => {
-            <h1 style={{color: 'red'}}>{loan.attributes.Amount}</h1>
-        })
-    }
+    const hasFetchedData = useRef(false);
+    const [loans,setLoans] = useState([]);
 
+    useEffect(() => {
+        const getLoans = async() => {
+            if (!hasFetchedData.current) {
+                await Moralis.enableWeb3(); 
+                const query = new Moralis.Query('Loan');
+                const allLoans = await query.find();
+                setLoans(allLoans);
+                hasFetchedData.current = true;
+            }
+        }
+        getLoans();
+        console.log(loans);
+    }, [Moralis, loans]);
     return (
         <>
-            <h1 className='heading'>BROWSE LOANS</h1>
-            <button onClick={() => viewLoans()}>View Loans</button>
-            <h2>{loans}</h2>
+            {loans.map((loan) => {
+                const { id } = loan;
+                const { Amount, InterestRate, LoanDuration, Borrower } = loan.attributes;
+                return (
+                    <div key={id}>
+                        <Card 
+                        amount={`Asking amount in ETH: ${Amount}`} 
+                        interestRate={`Interest Rate: ${InterestRate}%`}
+                        duration={`Loan Duration: ${LoanDuration} days`}
+                        borrower={`Proposer: ${Borrower}`}/>
+                    </div>
+                )
+            })}
         </>
     )
 }

@@ -1,0 +1,17 @@
+.card-container {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  color: #121212;
+  margin: 12px;
+  background-color: #f5f5f5d5;
+}
+
+.card {
+  font-size: 22px;
+  font-family: "Trebuchet MS";
+}
+
+.card-container:hover {
+  background-color: #f5f5f5;
+}

@@ -11,7 +11,7 @@ const NavBar = () => {
                     end 
                     className={(navData) => 
                         navData.isActive ? 'list-item-active' : 'list-item'} 
-                    to='/'
+                    to='/About'
                     >
                         ABOUT
                 </NavLink>
@@ -28,13 +28,6 @@ const NavBar = () => {
                     to='/ProposeLoan'
                     >
                         PROPOSE LOAN
-                </NavLink>
-                <NavLink 
-                    className={(navData) => 
-                        navData.isActive ? 'list-item-active' : 'list-item'} 
-                    to='/Lend'
-                    >
-                        LEND
                 </NavLink>
                 {isAuthenticated ? <UserAddress /> : <CryptoLogin />}     
         </nav>

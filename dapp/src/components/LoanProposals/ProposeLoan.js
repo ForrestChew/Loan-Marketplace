@@ -2,7 +2,7 @@ import { useMoralis } from 'react-moralis';
 import { useState } from 'react';
 import ABI from '../../ABIs/abi';
 import loansAddress from '../../ABIs/address';
-import './ProposeLoan.css';
+import './propose_loan.css';
 import '../../index.css';
 
 const ProposeLoan = () => {
@@ -14,7 +14,6 @@ const ProposeLoan = () => {
         borrower: ''
     });
     
-    console.log(loan)
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -22,9 +21,7 @@ const ProposeLoan = () => {
     }
     
     const proposeLoan = async (proposalAmount, interestRatePercentage, loanDuration) => {
-        const web3 = await Moralis.enableWeb3();
-        console.log('Web3 instance ititialized')
-        
+        await Moralis.enableWeb3();
         const options = { 
             abi: ABI,
             contractAddress: loansAddress,

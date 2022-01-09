@@ -11,7 +11,7 @@ export const UserAddress = () => {
             data-hover="Logout"
             onClick={logout}
             >
-                {`${ethAddressStart}....${ethAddressEnd}`}
+                {`${ethAddressStart}...${ethAddressEnd}`}
             </button>
         </>
     )
