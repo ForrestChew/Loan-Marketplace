@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useMoralis } from 'react-moralis';
-import Card from '../cards/Card';
+import Strip from '../strips/Strip';
 
 const BrowseLoans = () => {
-    const { Moralis } = useMoralis();
+    const { Moralis, } = useMoralis();
     const hasFetchedData = useRef(false);
     const [loans,setLoans] = useState([]);
 
@@ -11,14 +11,13 @@ const BrowseLoans = () => {
         const getLoans = async() => {
             if (!hasFetchedData.current) {
                 await Moralis.enableWeb3(); 
-                const query = new Moralis.Query('Loan');
+                const query = new Moralis.Query('Loans');
                 const allLoans = await query.find();
                 setLoans(allLoans);
                 hasFetchedData.current = true;
             }
         }
         getLoans();
-        console.log(loans);
     }, [Moralis, loans]);
     return (
         <>
@@ -27,11 +26,13 @@ const BrowseLoans = () => {
                 const { Amount, InterestRate, LoanDuration, Borrower } = loan.attributes;
                 return (
                     <div key={id}>
-                        <Card 
-                        amount={`Asking amount in ETH: ${Amount}`} 
-                        interestRate={`Interest Rate: ${InterestRate}%`}
-                        duration={`Loan Duration: ${LoanDuration} days`}
-                        borrower={`Proposer: ${Borrower}`}/>
+                        <Strip 
+                            amount={`Asking amount in ETH: ${Amount}`} 
+                            interestRate={`Interest Rate: ${InterestRate}%`}
+                            duration={`Loan Duration: ${LoanDuration} days`}
+                            borrower={`Proposer: ${Borrower}`}
+                            id={id}
+                        />
                     </div>
                 )
             })}

@@ -22,7 +22,7 @@ const ProposeLoan = () => {
     
     const proposeLoan = async (proposalAmount, interestRatePercentage, loanDuration) => {
         await Moralis.enableWeb3();
-        const options = { 
+        const proposeLoan = { 
             abi: ABI,
             contractAddress: loansAddress,
             chain: '1337',
@@ -33,11 +33,11 @@ const ProposeLoan = () => {
                 _duration: loanDuration
             }
         }
-        await Moralis.executeFunction(options);
+        await Moralis.executeFunction(proposeLoan);
         await createLoan();
     }
     const createLoan = async () => {
-        const Loan = Moralis.Object.extend("Loan");   
+        const Loan = Moralis.Object.extend("Loans");   
         const newLoan = new Loan();
         newLoan.set('Amount', loan.amount);
         newLoan.set('InterestRate', loan.interestRate);
