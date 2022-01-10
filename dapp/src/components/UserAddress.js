@@ -9,7 +9,9 @@ export const UserAddress = () => {
             <button 
             className="crypto-login" 
             data-hover="Logout"
-            onClick={logout}
+            onClick={() => {
+                logout();
+            }}
             >
                 {`${ethAddressStart}...${ethAddressEnd}`}
             </button>

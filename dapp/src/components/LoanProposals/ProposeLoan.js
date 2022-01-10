@@ -22,13 +22,14 @@ const ProposeLoan = () => {
     
     const proposeLoan = async (proposalAmount, interestRatePercentage, loanDuration) => {
         await Moralis.enableWeb3();
+        const ethToWei = Moralis.Units.ETH(proposalAmount)
         const proposeLoan = { 
             abi: ABI,
             contractAddress: loansAddress,
             chain: '1337',
             functionName: 'proposeLoan',
             params: {
-                _amount: proposalAmount,
+                _amount: ethToWei,
                 _interesetRatePercent: interestRatePercentage,
                 _duration: loanDuration
             }

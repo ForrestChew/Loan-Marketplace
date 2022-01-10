@@ -3,7 +3,7 @@ import { useMoralis } from 'react-moralis';
 import Strip from '../strips/Strip';
 
 const BrowseLoans = () => {
-    const { Moralis, } = useMoralis();
+    const { Moralis } = useMoralis();
     const hasFetchedData = useRef(false);
     const [loans,setLoans] = useState([]);
 

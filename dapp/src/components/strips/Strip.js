@@ -3,17 +3,19 @@ import ABI from '../../ABIs/abi';
 import loansAddress from '../../ABIs/address';
 import './strips.css';
 
-const Strip = ({ amount, interestRate, duration, borrower, id}) => {
+const Strip = ({ amount, interestRate, duration, borrower, id }) => {
     const { Moralis, user } = useMoralis();
     const lend = async () => {
         const borrowerAddr = borrower.substring(10);
         const ethToSend = amount.substring(21);
+        const amountStringToNum = parseInt(ethToSend);
+        const ethInWei = Moralis.Units.ETH(amountStringToNum);
         const fillLoan = {
             abi: ABI,
             contractAddress: loansAddress,
             chain: '1337',
             functionName: 'lend',
-            msgValue: ethToSend,
+            msgValue: ethInWei,
             params: {
                 _borrower: borrowerAddr 
             }
@@ -24,18 +26,30 @@ const Strip = ({ amount, interestRate, duration, borrower, id}) => {
 
     const createLend = async () => {
         const ActivatedLoan = Moralis.Object.extend('ActivatedLoans');
-        //newAL is an alias for newActivatedLoan
+        const borrowerAddr = borrower.substring(10);
+        const ethToSend = amount.substring(21);
+        /*Isolates the interest rate string to just the interest rate  
+        number before inputing the number into the database*/
+        const iRateArray = interestRate.split(' ');
+        const iRateIndexIso = iRateArray[2];
+        const iRateNumIso = iRateIndexIso.slice(0,-1);
+        /*Isolates the duration string to just the duration number
+        before inputing the number into the database*/
+        const durationArray = duration.split(' ');
+        const durationIndexIso = durationArray[2];
+        //Creates new Active Loan object
         const newAL = new ActivatedLoan();
-        newAL.set('amount', amount);
-        newAL.set('InterestRate', interestRate);
-        newAL.set('LoanDuration', duration)
-        newAL.set('Borrower', borrower);
+        //newAL is an alias for newActivationLoan
+        newAL.set('Amount', ethToSend);
+        newAL.set('InterestRate', iRateNumIso); 
+        newAL.set('LoanDuration', durationIndexIso)
+        newAL.set('Borrower', borrowerAddr);
         newAL.set('Lender', user.get('ethAddress'));
         await newAL.save();
         deleteLoanProposal()
     }
     //Loan proposal deleted when user fills that proposal.
-    //The loan proposal will become an "Activated Loan" in Moralis DB
+    //The loan proposal will become an "Activated Loan" in the Moralis DB
     const deleteLoanProposal = async () => {
         const query = new Moralis.Query('Loans');   
         const loanToDestroy = await query.get(id);
@@ -58,7 +72,7 @@ const Strip = ({ amount, interestRate, duration, borrower, id}) => {
             </li>
             <button 
                 className='strip' 
-                style={{backgroundColor: '#f5f5f5fa'}}
+                style={{backgroundColor: '#f5f5f5fa', border: 'solid 2px'}}
                 onClick={() => {
                     lend();
                 }}
