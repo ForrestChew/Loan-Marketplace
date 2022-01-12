@@ -10,17 +10,20 @@ const UsersPositions = () => {
     const [userActiveLoans,setUserActiveLoans] = useState([]);
     const hasFetchedData = useRef(false);
 
-
+    /* Removes the loan positions for an account when the user logs
+    out by setting the state values back to an empty array */
     useEffect(() => {
         if (isUnauthenticated) {
             setUserProposals([]);
+            setUserActiveLoans([]);
             hasFetchedData.current = false;
             console.log('removed')
         }
     }, [isUnauthenticated]);
 
+    //Fetches logged in users loan positions from Moralis DB on render
     useEffect(() => {
-        const getProposedLoan = async () => {
+        const getAccountPositions = async () => {
             if (!hasFetchedData.current) {
                 try {
                     await Moralis.enableWeb3();
@@ -31,7 +34,6 @@ const UsersPositions = () => {
                     const queryActiveLoans = new Moralis.Query('ActivatedLoans');
                     const queryActiveLoansMatch = queryActiveLoans.equalTo('Lender', user.get('ethAddress'));
                     const activeLoan = await queryActiveLoansMatch.find();
-                    console.log(activeLoan)
                     setUserActiveLoans(activeLoan);
                     hasFetchedData.current = true;
                 }
@@ -40,39 +42,43 @@ const UsersPositions = () => {
                 }
             }
         }
-        getProposedLoan();
+        getAccountPositions();
     }, [Moralis, setUserProposals, isAuthenticated, user]);
     
     return (
         <>
-            {!isUnauthenticated ? userProposals.map((proposal) => {
+        {/* Displays the loan proposed by logged in account*/}
+            {userProposals.map((proposal) => {
                 const { id } = proposal;
                 const {Amount, InterestRate, LoanDuration, Borrower } = proposal.attributes;
                 return (
                     <div key={id}>
+                        <h1 style={{color: 'white'}}>Proposed</h1>
                         <DisplayStrips 
-                            amount={Amount}
-                            interestRate={InterestRate}
-                            duration={LoanDuration}
-                            borrower={Borrower}
+                            amount={`Amount Proposed: ${Amount}`}
+                            interestRate={`Interest Rate to Pay: ${InterestRate}`}
+                            duration={`Loan Duration: ${LoanDuration} days`}
+                            borrower={`Your address: ${Borrower}`}
                         />
                     </div>
                 )
-            }) : 'Component stating that user has no proposed loans'}
-            {!isUnauthenticated ? userActiveLoans.map((activeLoan) => {
+            })}
+            {/* Displays loan that the currently logged in account has lent on */}
+            {userActiveLoans.map((activeLoan) => {
                 const { id } = activeLoan;
                 const {Amount, InterestRate, LoanDuration, Borrower } = activeLoan.attributes;
                 return (
                     <div key={id}>
+                        <h1 style={{color: 'white'}}>Lent</h1>
                         <DisplayStrips 
-                            amount={Amount}
-                            interestRate={InterestRate}
-                            duration={LoanDuration}
-                            borrower={Borrower}
+                            amount={`Amount Lent: ${Amount} ETH`}
+                            interestRate={`Interest Rate: ${InterestRate}%`}
+                            duration={`Loan Duration ${LoanDuration}`}
+                            borrower={`Borrower Address: ${Borrower}`}
                         />
                     </div>
                 )
-            }) : 'Component stating that user has no proposed loans'}
+            })}
         </>
     )
 }
