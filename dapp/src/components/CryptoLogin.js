@@ -2,13 +2,12 @@ import { useMoralis } from "react-moralis";
 
 
 const CryptoLogin = () => {
-    const { authenticate, isUnauthenticated } = useMoralis();
+    const { authenticate } = useMoralis();
     return (
         <button 
         className="crypto-login"
         onClick={() => { 
             authenticate();
-            console.log(isUnauthenticated);
         }}
         style={{float: 'right'}}
         >
