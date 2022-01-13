@@ -23,7 +23,7 @@ const BrowseLoans = () => {
         <>
             {loans.map((loan) => {
                 const { id } = loan;
-                const { Amount, InterestRate, LoanDuration, Borrower } = loan.attributes;
+                const { Amount, InterestRate, LoanDuration, Borrower, InterestRateAmount } = loan.attributes;
                 return (
                     <div key={id}>
                         <Strip 
@@ -31,6 +31,7 @@ const BrowseLoans = () => {
                             interestRate={`Interest Rate: ${InterestRate}%`}
                             duration={`Loan Duration: ${LoanDuration} days`}
                             borrower={`Proposer: ${Borrower}`}
+                            interestAmount={InterestRateAmount}
                             id={id}
                         />
                     </div>

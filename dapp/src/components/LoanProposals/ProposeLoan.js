@@ -10,6 +10,7 @@ const ProposeLoan = () => {
     const [loan, setLoan] = useState({
         amount: '',
         interestRate: '',
+        interestAmount: '',
         loanDuration: '' ,
         borrower: ''
     });
@@ -17,7 +18,11 @@ const ProposeLoan = () => {
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setLoan({...loan, [name]: value, borrower: user.get('ethAddress')}) 
+        setLoan({
+            ...loan, 
+            [name]: value,
+            borrower: user.get('ethAddress')
+        }) 
     }
     
     const proposeLoan = async (proposalAmount, interestRatePercentage, loanDuration) => {
@@ -40,8 +45,10 @@ const ProposeLoan = () => {
     const createLoan = async () => {
         const Loan = Moralis.Object.extend("Loans");   
         const newLoan = new Loan();
+        const interestAmount = (loan.amount * loan.interestRate) / 100;
         newLoan.set('Amount', loan.amount);
         newLoan.set('InterestRate', loan.interestRate);
+        newLoan.set('InterestRateAmount', interestAmount)
         newLoan.set('LoanDuration', loan.loanDuration);
         newLoan.set('Borrower', loan.borrower);
         await newLoan.save();

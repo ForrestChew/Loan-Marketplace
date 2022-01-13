@@ -3,7 +3,7 @@ import ABI from '../../ABIs/abi';
 import loansAddress from '../../ABIs/address';
 import './strips.css';
 
-const Strip = ({ amount, interestRate, duration, borrower, id }) => {
+const Strip = ({ amount, interestRate, duration, borrower, id, interestAmount }) => {
     const { Moralis, user } = useMoralis();
     const lend = async () => {
         const borrowerAddr = borrower.substring(10);
@@ -42,9 +42,11 @@ const Strip = ({ amount, interestRate, duration, borrower, id }) => {
         //newAL is an alias for newActivationLoan
         newAL.set('Amount', ethToSend);
         newAL.set('InterestRate', iRateNumIso); 
-        newAL.set('LoanDuration', durationIndexIso)
+        newAL.set('LoanDuration', durationIndexIso);
         newAL.set('Borrower', borrowerAddr);
+        newAL.set('InterestRateAmount', interestAmount);
         newAL.set('Lender', user.get('ethAddress'));
+        console.log(interestAmount);
         await newAL.save();
         deleteLoanProposal()
     }
