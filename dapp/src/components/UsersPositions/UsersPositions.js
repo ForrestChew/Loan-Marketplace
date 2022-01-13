@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useMoralis } from 'react-moralis';
+import ABI from '../../ABIs/abi';
+import loansAddress from '../../ABIs/address';
 import DisplayStrips from '../strips/DisplayStrips';
 import '../strips/strips.css'
 import './users-positions.css';
@@ -7,7 +9,8 @@ import './users-positions.css';
 const UsersPositions = () => {
     const { Moralis, user, isUnauthenticated, isAuthenticated } = useMoralis(); 
     const [userProposals,setUserProposals] = useState([]);
-    const [userActiveLoans,setUserActiveLoans] = useState([]);
+    const [userLentLoans,setUserLentLoans] = useState([]);
+    const [userFilledLoans,setUserFilledLoans] = useState([]);
     const hasFetchedData = useRef(false);
 
     /* Removes the loan positions for an account when the user logs
@@ -15,9 +18,9 @@ const UsersPositions = () => {
     useEffect(() => {
         if (isUnauthenticated) {
             setUserProposals([]);
-            setUserActiveLoans([]);
+            setUserLentLoans([]);
+            setUserFilledLoans([]);
             hasFetchedData.current = false;
-            console.log('removed')
         }
     }, [isUnauthenticated]);
 
@@ -27,14 +30,24 @@ const UsersPositions = () => {
             if (!hasFetchedData.current) {
                 try {
                     await Moralis.enableWeb3();
+                    // Querys user's loan proposal
                     const queryProposals = new Moralis.Query('Loans');
                     const queryProposalsMatch = queryProposals.equalTo('Borrower', user.get('ethAddress'));
                     const proposedLoan = await queryProposalsMatch.find();
+                    // Querys loan that user has lent to
+                    const queryActiveLentLoans = new Moralis.Query('ActivatedLoans');
+                    const queryActiveLentLoansMatch = 
+                    queryActiveLentLoans.equalTo('Lender', user.get('ethAddress'));
+                    const lentLoans = await queryActiveLentLoansMatch.find();
+                    // Querys users's loan that has been lent to
+                    const queryActiveFilledLoan = new Moralis.Query('ActivatedLoans');
+                    const queryActiveFilledLoansMatch = 
+                    queryActiveFilledLoan.equalTo('Borrower', user.get('ethAddress'));
+                    const filledLoan = await queryActiveFilledLoansMatch.find();
+                    //Sets state variables with fetched info
                     setUserProposals(proposedLoan);
-                    const queryActiveLoans = new Moralis.Query('ActivatedLoans');
-                    const queryActiveLoansMatch = queryActiveLoans.equalTo('Lender', user.get('ethAddress'));
-                    const activeLoan = await queryActiveLoansMatch.find();
-                    setUserActiveLoans(activeLoan);
+                    setUserLentLoans(lentLoans);
+                    setUserFilledLoans(filledLoan);
                     hasFetchedData.current = true;
                 }
                 catch(err) {
@@ -43,17 +56,39 @@ const UsersPositions = () => {
             }
         }
         getAccountPositions();
-    }, [Moralis, setUserProposals, isAuthenticated, user]);
+    }, [Moralis, setUserProposals, userFilledLoans, isAuthenticated, user]);
     
+    const paybackLoan = async () => {
+        await Moralis.enableWeb3();
+        const iRateAmtToNum = parseInt(userFilledLoans[0].attributes.InterestRateAmount);
+        console.log(iRateAmtToNum)
+        const amountToNum = parseInt(userFilledLoans[0].attributes.Amount);
+        console.log(amountToNum); 
+        const totalDebtToWei = Moralis.Units.ETH(
+            iRateAmtToNum + amountToNum
+        );
+        const payoffLoan = {
+            abi: ABI,
+            contractAddress: loansAddress,
+            chain: '1337',
+            msgValue: totalDebtToWei,
+            functionName: 'payback',
+            params: {
+                _lender: userFilledLoans[0].attributes.Lender
+            }
+        }
+        await Moralis.executeFunction(payoffLoan);
+    }
+
     return (
         <>
-        {/* Displays the loan proposed by logged in account*/}
+        {/* Displays the loan proposed by user*/}
             {userProposals.map((proposal) => {
                 const { id } = proposal;
                 const {Amount, InterestRate, LoanDuration, Borrower } = proposal.attributes;
                 return (
                     <div key={id}>
-                        <h1 style={{color: 'white'}}>Proposed</h1>
+                        <h1 className='general' style={{color: 'white'}}>Proposed</h1>
                         <DisplayStrips 
                             amount={`Amount Proposed: ${Amount}`}
                             interestRate={`Interest Rate to Pay: ${InterestRate}`}
@@ -63,17 +98,35 @@ const UsersPositions = () => {
                     </div>
                 )
             })}
-            {/* Displays loan that the currently logged in account has lent on */}
-            {userActiveLoans.map((activeLoan) => {
-                const { id } = activeLoan;
-                const {Amount, InterestRate, LoanDuration, Borrower } = activeLoan.attributes;
+            {/* Displays users filled loan proposal */}
+            {userFilledLoans.map((filledLoan) => {
+                const { id } = filledLoan;
+                const { Amount, InterestRate, LoanDuration, Lender} = filledLoan.attributes;
                 return (
                     <div key={id}>
-                        <h1 style={{color: 'white'}}>Lent</h1>
+                        <h1 className='general' style={{color: 'white'}}>Debt</h1>
+                        <button className='btn general' onClick={() => paybackLoan()}>Payback</button>
+                        <DisplayStrips
+                            amount={`Initial Debt: ${Amount}`}
+                            interestRate={`Interest Rate: ${InterestRate}`}
+                            duration={`Loan Duration: ${LoanDuration}`}
+                            lender={`Loan filled by: ${Lender}`}
+                        />
+                    </div>
+                )
+            })}
+            {/* Displays the loan that user has lent on */}
+            {userLentLoans.map((lentLoan) => {
+                const { id } = lentLoan;
+                const {Amount, InterestRate, LoanDuration, Borrower } = lentLoan.attributes;
+                return (
+                    <div key={id}>
+                        <h1 className='general' style={{color: 'white'}}>Lent</h1>
+                        <button className='btn general'>Sell Loan</button>
                         <DisplayStrips 
                             amount={`Amount Lent: ${Amount} ETH`}
                             interestRate={`Interest Rate: ${InterestRate}%`}
-                            duration={`Loan Duration ${LoanDuration}`}
+                            duration={`Loan Duration: ${LoanDuration}`}
                             borrower={`Borrower Address: ${Borrower}`}
                         />
                     </div>
