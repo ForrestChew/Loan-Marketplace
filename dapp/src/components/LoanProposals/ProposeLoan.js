@@ -57,7 +57,7 @@ const ProposeLoan = () => {
         <>
             <article className='form'>
                 <div className='form-control'>
-                    <label>Ask Amount</label>
+                    <label>ETH to borrow</label>
                     <input 
                         type="text" 
                         name='amount'
@@ -66,7 +66,7 @@ const ProposeLoan = () => {
                     />
                 </div>
                 <div className='form-control'>
-                    <label>Interest Rate</label>
+                    <label>Interest Rate Percent</label>
                     <input 
                         type="text" 
                         name='interestRate'
@@ -74,7 +74,7 @@ const ProposeLoan = () => {
                         onChange={handleChange} />
                 </div>
                 <div className='form-control'>
-                    <label>Duration</label>
+                    <label>Loan Duration in days</label>
                     <input 
                         type="text" 
                         name='loanDuration'
