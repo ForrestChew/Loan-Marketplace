@@ -51,7 +51,7 @@ const Strip = ({ amount, interestRate, duration, borrower, id, interestAmount })
         deleteLoanProposal()
     }
     //Loan proposal deleted when user fills that proposal.
-    //The loan proposal will become an "Activated Loan" in the Moralis DB
+    //The loan proposal will become an "ActivatedLoan" in the Moralis DB
     const deleteLoanProposal = async () => {
         const query = new Moralis.Query('Loans');   
         const loanToDestroy = await query.get(id);
