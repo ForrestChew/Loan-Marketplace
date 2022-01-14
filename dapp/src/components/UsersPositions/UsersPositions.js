@@ -60,10 +60,10 @@ const UsersPositions = () => {
     
     const paybackLoan = async () => {
         await Moralis.enableWeb3();
-        const iRateAmtToNum = parseInt(userFilledLoans[0].attributes.InterestRateAmount);
-        console.log(iRateAmtToNum)
-        const amountToNum = parseInt(userFilledLoans[0].attributes.Amount);
-        console.log(amountToNum); 
+        const iRateAmtToNum = parseFloat(userFilledLoans[0].attributes.InterestRateAmount);
+        console.log(`Interest rate amount: ${iRateAmtToNum}`)
+        const amountToNum = parseFloat(userFilledLoans[0].attributes.Amount);
+        console.log(`Initial debt ${amountToNum}`); 
         const totalDebtToWei = Moralis.Units.ETH(
             iRateAmtToNum + amountToNum
         );
@@ -78,6 +78,14 @@ const UsersPositions = () => {
             }
         }
         await Moralis.executeFunction(payoffLoan);
+        deleteActiveLoan();
+    }
+    // Deletes the activated loan from DB
+    const deleteActiveLoan = async () => {
+        const query = new Moralis.Query('ActivatedLoans');
+        const activeLoanQuery = await query.get(userFilledLoans[0].id);
+        console.log(activeLoanQuery)
+        await activeLoanQuery.destroy();
     }
 
     return (
@@ -109,7 +117,7 @@ const UsersPositions = () => {
                         <DisplayStrips
                             amount={`Initial Debt: ${Amount}`}
                             interestRate={`Interest Rate: ${InterestRate}`}
-                            duration={`Loan Duration: ${LoanDuration}`}
+                            duration={`Loan Duration: ${LoanDuration} days`}
                             lender={`Loan filled by: ${Lender}`}
                         />
                     </div>
