@@ -39,12 +39,12 @@ const Strip = ({ amount, interestRate, duration, borrower, id, interestAmount })
         const durationIndexIso = durationArray[2];
         //Creates new Active Loan object
         const newAL = new ActivatedLoan();
-        //newAL is an alias for newActivationLoan
+        //newAL is an alias for newActivatedLoan
         newAL.set('Amount', ethToSend);
         newAL.set('InterestRate', iRateNumIso); 
         newAL.set('LoanDuration', durationIndexIso);
         newAL.set('Borrower', borrowerAddr);
-        newAL.set('InterestRateAmount', interestAmount);
+        newAL.set('InterestRateAmount', parseFloat(interestAmount));
         newAL.set('Lender', user.get('ethAddress'));
         console.log(interestAmount);
         await newAL.save();
@@ -53,7 +53,7 @@ const Strip = ({ amount, interestRate, duration, borrower, id, interestAmount })
     //Loan proposal deleted when user fills that proposal.
     //The loan proposal will become an "ActivatedLoan" in the Moralis DB
     const deleteLoanProposal = async () => {
-        const query = new Moralis.Query('Loans');   
+        const query = new Moralis.Query('LoanProposals');   
         const loanToDestroy = await query.get(id);
         loanToDestroy.destroy();
     } 
