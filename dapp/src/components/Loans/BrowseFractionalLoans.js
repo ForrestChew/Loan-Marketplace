@@ -10,10 +10,12 @@ const BrowseFractionalLoans = () => {
         const getForSaleLoans = async () => {
             if (!hasFetchedData.current) {
                 await Moralis.enableWeb3();
+                // Loops through active loans to find loans for sale
                 const query = new Moralis.Query('ActivatedLoans');
                 const allLoans = await query.find();
                 allLoans.forEach((loan) => {
-                    if (loan.attributes.SellingPrice !== undefined) {
+                    if (loan.attributes.SellingPrice !== undefined && 
+                        loan.attributes.FractionalBuyersAddr === undefined) {
                         setLoans(allLoans);
                     }
                 });
