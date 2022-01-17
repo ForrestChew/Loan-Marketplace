@@ -25,6 +25,13 @@ const NavBar = () => {
                 <NavLink 
                     className={(navData) => 
                         navData.isActive ? 'list-item-active' : 'list-item'} 
+                    to='/BrowseFractionalLoans'
+                >
+                    Browse Fractional Loans
+                </NavLink>
+                <NavLink 
+                    className={(navData) => 
+                        navData.isActive ? 'list-item-active' : 'list-item'} 
                     to='/ProposeLoan'
                 >
                     Propose Loan
