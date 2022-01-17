@@ -7,7 +7,7 @@
     "@testing-library/react": "^10.4.9",
     "@testing-library/user-event": "^12.8.3",
     "@walletconnect/web3-provider": "^1.7.0",
-    "moralis": "^0.0.178",
+    "moralis": "^0.0.184",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^3.11.0",
