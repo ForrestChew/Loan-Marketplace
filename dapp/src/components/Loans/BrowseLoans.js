@@ -11,7 +11,7 @@ const BrowseLoans = () => {
         const getLoans = async() => {
             if (!hasFetchedData.current) {
                 await Moralis.enableWeb3(); 
-                const query = new Moralis.Query('Loans');
+                const query = new Moralis.Query('LoanProposals');
                 const allLoans = await query.find();
                 setLoans(allLoans);
                 hasFetchedData.current = true;
