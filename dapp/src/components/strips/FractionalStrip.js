@@ -71,16 +71,13 @@ const FractionalStrip = ({
         const interestAmountIso = interestAmount.substring(24);
         const interestAmountIsoFloat = parseFloat(interestAmountIso)
         console.log(interestAmountIsoFloat);
-        // const totalFloatAmount = Moralis.Units.ETH(amountIsoFloat + interestAmountIsoFloat);
-        // console.log(totalFloatAmount);
         const percentSoldIso = percentSold.substring(26);
         const percentSoldFloat = parseFloat(percentSoldIso);
         const totalLoanFractionAmount = ((amountIsoFloat + interestAmountIsoFloat) * percentSoldFloat) / 100;
         const totalLoanFractionAmountToWei = Moralis.Units.ETH(totalLoanFractionAmount);
-
         const newOwedAmount = (amountIsoFloat + interestAmountIsoFloat) - totalLoanFractionAmount;
         const newOwedAmountToWei = Moralis.Units.ETH(newOwedAmount);
-
+        // Declares function call object
         const buyFractionalLoan = {
             abi: ABI,
             contractAddress: loansAddress,
@@ -95,6 +92,11 @@ const FractionalStrip = ({
             }
         }
         await Moralis.executeFunction(buyFractionalLoan);
+        const query = new Moralis.Query('ActivatedLoans');
+        const queriedLoan = await query.get(id);
+        queriedLoan.set('FractionalBuyersAddr', user.get('ethAddress'));
+        await queriedLoan.save();
+        console.log('Fractional Loan buys address saved')
     }
 
     return (
