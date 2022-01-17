@@ -8,7 +8,7 @@ const Strip = ({ amount, interestRate, duration, borrower, id, interestAmount })
     const lend = async () => {
         const borrowerAddr = borrower.substring(10);
         const ethToSend = amount.substring(21);
-        const amountStringToNum = parseInt(ethToSend);
+        const amountStringToNum = parseFloat(ethToSend);
         const ethInWei = Moralis.Units.ETH(amountStringToNum);
         const fillLoan = {
             abi: ABI,
