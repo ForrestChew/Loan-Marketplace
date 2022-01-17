@@ -3,3 +3,9 @@
   margin: 10px;
   border-bottom: 2px solid white;
 }
+
+.inputs {
+  height: 3px;
+  display: flex;
+  flex-direction: column;
+}
