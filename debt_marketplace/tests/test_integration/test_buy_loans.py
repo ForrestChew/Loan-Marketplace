@@ -45,6 +45,7 @@ def test_buy_full_loan(
     assert contract.activeLoans(lender, borrower)[6] == False
 
 
+# Tests buying a fractional loan
 def test_buy_loan_fraction(deploy_contract, propose_loans, lend, account):
     borrower = account
     lender = accounts[1]
@@ -54,7 +55,9 @@ def test_buy_loan_fraction(deploy_contract, propose_loans, lend, account):
     propose_loans
     lend
     contract.listLoan(borrower, loan_list_price, 25, {"from": lender})
-    contract.buyLoan(lender, borrower, {"from": buyer, "value": loan_list_price})
+    contract.buyLoanFraction(
+        lender, borrower, {"from": buyer, "value": loan_list_price}
+    )
     assert contract.activeLoans(lender, borrower)[0] == w3.toWei(0.7875, "ether")
     assert contract.activeLoans(lender, borrower)[1] == 5
     assert contract.activeLoans(lender, borrower)[2] == w3.toWei(0.05, "ether")
@@ -70,7 +73,7 @@ def test_buy_loan_fraction(deploy_contract, propose_loans, lend, account):
 
 
 def test_buy_loan_no_active_loan_revert(deploy_contract, propose_loans, lend, account):
-    with brownie.reverts("Loan does not exist"):
+    with brownie.reverts("non-existant"):
         contract = deploy_contract
         propose_loans
         lend
@@ -80,7 +83,7 @@ def test_buy_loan_no_active_loan_revert(deploy_contract, propose_loans, lend, ac
 def test_buy_loan_wrong_amount_revert(
     deploy_contract, propose_loans, lend, list_loan, account
 ):
-    with brownie.reverts("Not the correct amount of ether"):
+    with brownie.reverts("Incorrect ether amt"):
         contract = deploy_contract
         propose_loans
         lend
