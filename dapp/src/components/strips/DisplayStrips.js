@@ -1,4 +1,12 @@
-const DisplayStrips = ({ amount, interestRate, duration, borrower, lender }) => {
+const DisplayStrips = ({ 
+    amount, 
+    interestRate, 
+    duration, 
+    borrower, 
+    lender, 
+    percentSold, 
+    sellingPrice
+}) => {
     return (
         <div className="strip-container">
             <li className="strip">
@@ -15,6 +23,12 @@ const DisplayStrips = ({ amount, interestRate, duration, borrower, lender }) => 
             </li>
             <li className="strip">
                 {lender}
+            </li>
+            <li className="strip">
+                {percentSold}
+            </li>
+            <li className="strip">
+                {sellingPrice}
             </li>
         </div> 
     )
