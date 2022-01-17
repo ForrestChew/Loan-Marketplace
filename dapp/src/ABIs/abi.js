@@ -175,6 +175,34 @@ const abi = [
     {
       "inputs": [
         {
+          "internalType": "address payable",
+          "name": "_lender",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_borrower",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "fractionalLoanAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "newBaseLoanAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "buyLoanFraction",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "",
           "type": "address"
@@ -332,6 +360,92 @@ const abi = [
           "internalType": "bool",
           "name": "isForSale",
           "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_lender",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_borrower",
+          "type": "address"
+        }
+      ],
+      "name": "viewActiveLoans",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "interestPercentage",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "interestAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "duration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestampStart",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "forSalePrice",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "loanFractionPercentage",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "loanFractionAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "fractionalOwner",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "isProposed",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "isActive",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "isForSale",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct Loans.Loan",
+          "name": "",
+          "type": "tuple"
         }
       ],
       "stateMutability": "view",
