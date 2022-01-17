@@ -1,6 +1,5 @@
 import { useMoralis } from "react-moralis";
 
-
 const CryptoLogin = () => {
     const { authenticate } = useMoralis();
     return (
