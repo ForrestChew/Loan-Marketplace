@@ -103,11 +103,13 @@ contract Loans {
         if (activeLoans[_lender][msg.sender].fractionalOwner != address(0)) {
             // Caluculates total borrower debt. Base loan + interest amount
             uint256 totalDebtFractional = activeLoans[_lender][msg.sender]
-                .amount + activeLoans[_lender][msg.sender].loanFractionAmount;
+                .amount +
+                activeLoans[_lender][msg.sender].loanFractionAmount +
+                activeLoans[_lender][msg.sender].interestAmount;
             //Ensures the correct amount of ETH is paid back
             require(
                 msg.value == totalDebtFractional,
-                "Amount paid back has to be exact"
+                "Amount paid back must be exact"
             );
             (bool success, ) = _lender.call{
                 value: activeLoans[_lender][msg.sender].amount
@@ -119,6 +121,7 @@ contract Loans {
                 value: activeLoans[_lender][msg.sender].loanFractionAmount
             }("");
             require(accept, "Transaction failed");
+            delete activeLoans[_lender][msg.sender];
             // The else block is run if the loan has only one owner
         } else {
             uint256 totalDebtFull = activeLoans[_lender][msg.sender].amount +
@@ -132,6 +135,7 @@ contract Loans {
                     activeLoans[_lender][msg.sender].interestAmount
             }("");
             require(success, "Transaction failed");
+            delete activeLoans[_lender][msg.sender];
         }
     }
 
@@ -160,42 +164,45 @@ contract Loans {
         payable
         blackListedCheck
     {
-        require(
-            activeLoans[_lender][_borrower].isForSale,
-            "Loan does not exist"
-        );
+        require(activeLoans[_lender][_borrower].isForSale, "non-existant");
         require(
             msg.value == activeLoans[_lender][_borrower].forSalePrice,
-            "Not the correct amount of ether"
+            "Incorrect ether amt"
         );
         //Calculates the fractional split amount if a lender wants to sell less than 100% of loan
-        if (activeLoans[_lender][_borrower].loanFractionPercentage == 100) {
-            //Changes ownership by switching the key to loan
-            activeLoans[msg.sender][_borrower] = activeLoans[_lender][
-                _borrower
-            ];
-            activeLoans[msg.sender][_borrower].loanFractionPercentage = 0;
-            activeLoans[msg.sender][_borrower].forSalePrice = 0;
-            activeLoans[msg.sender][_borrower].isForSale = false;
-            delete activeLoans[_lender][_borrower];
-        } else {
-            /* The loan fraction amount only calculates if the loan is to be owned by two parties
-            E.G. One party does not own 100 percent of loan
-            This was done to save gas */
-            uint256 totalAmount = activeLoans[_lender][_borrower].amount +
-                activeLoans[_lender][_borrower].interestAmount;
-            uint256 loanFractionAmountTotal = (totalAmount *
-                (activeLoans[_lender][_borrower].loanFractionPercentage *
-                    10**18)) / (100 * 10**18);
-            //Assigns amounts and percentage split of target loan and updates struct fields
-            activeLoans[_lender][_borrower]
-                .loanFractionAmount = loanFractionAmountTotal;
-            activeLoans[_lender][_borrower].amount =
-                totalAmount -
-                loanFractionAmountTotal;
-            activeLoans[_lender][_borrower].isForSale = false;
-            activeLoans[_lender][_borrower].fractionalOwner = msg.sender;
-        }
+        // if (activeLoans[_lender][_borrower].loanFractionPercentage == 100) {
+        //Changes ownership by switching the key to loan
+        activeLoans[msg.sender][_borrower] = activeLoans[_lender][_borrower];
+        activeLoans[msg.sender][_borrower].loanFractionPercentage = 0;
+        activeLoans[msg.sender][_borrower].forSalePrice = 0;
+        activeLoans[msg.sender][_borrower].isForSale = false;
+        delete activeLoans[_lender][_borrower];
+        (bool success, ) = _lender.call{value: msg.value}("");
+        require(success, "Transaction failed");
+    }
+
+    function buyLoanFraction(
+        address payable _lender,
+        address _borrower,
+        uint256 fractionalLoanAmount,
+        uint256 newBaseLoanAmount
+    ) public payable {
+        require(activeLoans[_lender][_borrower].isForSale, "non-existant");
+        require(
+            msg.value == activeLoans[_lender][_borrower].forSalePrice,
+            "Incorrect ether amt"
+        );
+
+        //Assigns amounts and percentage split of target loan and updates struct fields
+        activeLoans[_lender][_borrower]
+            .loanFractionAmount = fractionalLoanAmount;
+
+        activeLoans[_lender][_borrower].amount = newBaseLoanAmount;
+
+        activeLoans[_lender][_borrower].isForSale = false;
+
+        activeLoans[_lender][_borrower].fractionalOwner = msg.sender;
+
         (bool success, ) = _lender.call{value: msg.value}("");
         require(success, "Transaction failed");
     }
@@ -218,6 +225,14 @@ contract Loans {
         returns (Loan memory)
     {
         return proposedLoans[_borrower];
+    }
+
+    function viewActiveLoans(address _lender, address _borrower)
+        public
+        view
+        returns (Loan memory)
+    {
+        return activeLoans[_lender][_borrower];
     }
 
     modifier blackListedCheck() {
