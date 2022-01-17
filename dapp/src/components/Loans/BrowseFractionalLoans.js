@@ -13,9 +13,8 @@ const BrowseFractionalLoans = () => {
                 const query = new Moralis.Query('ActivatedLoans');
                 const allLoans = await query.find();
                 allLoans.forEach((loan) => {
-                    if (loan.attributes.SellingPrice !== '') {
+                    if (loan.attributes.SellingPrice !== undefined) {
                         setLoans(allLoans);
-                        console.log(loans)
                     }
                 });
             hasFetchedData.current = true;
