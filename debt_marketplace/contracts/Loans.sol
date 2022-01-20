@@ -21,13 +21,13 @@ contract Loans {
     mapping(address => mapping(address => Loan)) public activeLoans;
 
     event Proposal(
-        uint256 _amount,
-        uint256 _interestPercentage,
-        uint256 _duration,
-        address indexed _proposer
+        uint256 amount,
+        uint256 interestPercentage,
+        uint256 duration,
+        address indexed proposer
     );
 
-    event ProposalFilled(address indexed _lender, address indexed _borrower);
+    event ProposalFilled(address indexed lender, address indexed borrower);
     //Accounts who do not repay debts get blacklisted from using the lending platform
     event Blacklisted(address indexed indebted);
 
@@ -98,38 +98,33 @@ contract Loans {
             activeLoans[_lender][msg.sender].isActive,
             "Nonexistant loan cannot be paid back"
         );
+        // Caluculates total borrower debt. Base loan + interest amount
+        //Ensures the correct amount of ETH is paid back
+        uint256 totalDebt = activeLoans[_lender][msg.sender].amount +
+            activeLoans[_lender][msg.sender].loanFractionAmount +
+            activeLoans[_lender][msg.sender].interestAmount;
+        require(msg.value == totalDebt, "Amount paid back must be exact");
         /*The if block will run when loan is fractional. The amount each lender gets is
         calculated and transfered to their account*/
         if (activeLoans[_lender][msg.sender].fractionalOwner != address(0)) {
-            // Caluculates total borrower debt. Base loan + interest amount
-            uint256 totalDebtFractional = activeLoans[_lender][msg.sender]
-                .amount +
-                activeLoans[_lender][msg.sender].loanFractionAmount +
-                activeLoans[_lender][msg.sender].interestAmount;
-            //Ensures the correct amount of ETH is paid back
-            require(
-                msg.value == totalDebtFractional,
-                "Amount paid back must be exact"
-            );
             (bool success, ) = _lender.call{
-                value: activeLoans[_lender][msg.sender].amount
+                value: activeLoans[_lender][msg.sender].amount +
+                    (activeLoans[_lender][msg.sender].interestAmount / 2)
             }("");
             require(success, "Transaction failed");
             (bool accept, ) = activeLoans[_lender][msg.sender]
                 .fractionalOwner
                 .call{
-                value: activeLoans[_lender][msg.sender].loanFractionAmount
+                value: activeLoans[_lender][msg.sender].loanFractionAmount +
+                    (activeLoans[_lender][msg.sender].interestAmount / 2)
             }("");
             require(accept, "Transaction failed");
             delete activeLoans[_lender][msg.sender];
             // The else block is run if the loan has only one owner
         } else {
-            uint256 totalDebtFull = activeLoans[_lender][msg.sender].amount +
-                activeLoans[_lender][msg.sender].interestAmount;
-            require(
-                msg.value == totalDebtFull,
-                "Amount paid back has to be exact"
-            );
+            // uint256 totalDebtFull = activeLoans[_lender][msg.sender].amount +
+            //     activeLoans[_lender][msg.sender].interestAmount;
+            // require(msg.value == totalDebt, "Amount paid back has to be exact");
             (bool success, ) = _lender.call{
                 value: activeLoans[_lender][msg.sender].amount +
                     activeLoans[_lender][msg.sender].interestAmount

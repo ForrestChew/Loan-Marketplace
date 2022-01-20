@@ -18,25 +18,25 @@ const abi = [
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "_amount",
+          "name": "amount",
           "type": "uint256"
         },
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "_interestPercentage",
+          "name": "interestPercentage",
           "type": "uint256"
         },
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "_duration",
+          "name": "duration",
           "type": "uint256"
         },
         {
           "indexed": true,
           "internalType": "address",
-          "name": "_proposer",
+          "name": "proposer",
           "type": "address"
         }
       ],
