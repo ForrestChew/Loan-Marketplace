@@ -5,10 +5,13 @@ const DisplayStrips = ({
     borrower, 
     lender, 
     percentSold, 
-    sellingPrice
+    sellingPrice,
 }) => {
     return (
-        <div className="strip-container">
+        <div 
+            className="strip-container"
+            style={{border: '6px solid gray'}}
+        >
             <li className="strip">
                 {amount}
             </li>
