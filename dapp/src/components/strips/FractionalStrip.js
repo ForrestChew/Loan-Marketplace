@@ -67,10 +67,8 @@ const FractionalStrip = ({
         "buyLoanFraction" function parameter in smart contract */
         const amountIso = amount.substring(21);
         const amountIsoFloat = parseFloat(amountIso);
-        console.log(amountIsoFloat);
         const interestAmountIso = interestAmount.substring(24);
         const interestAmountIsoFloat = parseFloat(interestAmountIso)
-        console.log(interestAmountIsoFloat);
         const percentSoldIso = percentSold.substring(26);
         const percentSoldFloat = parseFloat(percentSoldIso);
         const totalLoanFractionAmount = ((amountIsoFloat + interestAmountIsoFloat) * percentSoldFloat) / 100;
@@ -95,12 +93,16 @@ const FractionalStrip = ({
         const query = new Moralis.Query('ActivatedLoans');
         const queriedLoan = await query.get(id);
         queriedLoan.set('FractionalBuyersAddr', user.get('ethAddress'));
+        queriedLoan.set('FractionalAmount', totalLoanFractionAmount);
         await queriedLoan.save();
         console.log('Fractional Loan buys address saved')
     }
 
     return (
-        <div className="strip-container">
+        <div 
+            className="strip-container"
+            style={{border: '6px solid gray'}}
+        >
             <li className="strip">
                 {amount}
             </li>
@@ -133,7 +135,7 @@ const FractionalStrip = ({
                     () => buyFractionalLoan()
                 }
             >
-                Buy
+                BUY
             </button>
         </div> 
     )
