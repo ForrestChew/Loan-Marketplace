@@ -9,13 +9,13 @@ const ReactRouterMain = () => {
     return (
         <Router>
             <NavBar />
-                <Route  path='/about'>
+                <Route  path="/about">
                     <About />
                 </Route>
-                <Route path='/browseloans'>
+                <Route path="/browseloans">
                     <BrowseLoans />
                 </Route>
-                <Route path='/proposeloan'>
+                <Route path="/proposeloan">
                     <ProposeLoan />
                 </Route>
         </Router>
