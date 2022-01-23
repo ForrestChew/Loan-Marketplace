@@ -1,27 +1,37 @@
 import { useMoralis } from 'react-moralis';
 import ABI from '../../ABIs/abi';
 import loansAddress from '../../ABIs/address';
-import './strips.css';
+import '../../styles/strips.css';
 
 const Strip = ({ amount, interestRate, duration, borrower, id, interestAmount }) => {
-    const { Moralis, user } = useMoralis();
+    const { Moralis, user, isUnauthenticated } = useMoralis();
+
     const lend = async () => {
+        try {
         const borrowerAddr = borrower.substring(10);
-        const ethToSend = amount.substring(21);
-        const amountStringToNum = parseFloat(ethToSend);
-        const ethInWei = Moralis.Units.ETH(amountStringToNum);
-        const fillLoan = {
-            abi: ABI,
-            contractAddress: loansAddress,
-            chain: '1337',
-            functionName: 'lend',
-            msgValue: ethInWei,
-            params: {
-                _borrower: borrowerAddr 
+        if (!isUnauthenticated && borrowerAddr !== user.get('ethAddress')) {
+            const ethToSend = amount.substring(21);
+            const amountStringToNum = parseFloat(ethToSend);
+            const ethInWei = Moralis.Units.ETH(amountStringToNum);
+            const fillLoan = {
+                abi: ABI,
+                contractAddress: loansAddress,
+                chain: '1337',
+                functionName: 'lend',
+                msgValue: ethInWei,
+                params: {
+                    _borrower: borrowerAddr 
+                }
             }
+            await Moralis.executeFunction(fillLoan);
+            // Invokes function to create the Activated Loan in database
+            await createLend();
+        } else {
+            alert('Please login')
         }
-        await Moralis.executeFunction(fillLoan);
-        await createLend();
+        } catch(err) {
+            alert('Please refresh the page and login');
+        }
     }
 
     const createLend = async () => {
@@ -59,25 +69,24 @@ const Strip = ({ amount, interestRate, duration, borrower, id, interestAmount })
     } 
 
     return (
-        <div className='strip-container'>
-            <li className='strip'>
+        <div className="strip-container"
+            style={{border: '6px solid gray'}}
+        >
+            <li className="strip">
                 {amount}
             </li>
-            <li className='strip'>
+            <li className="strip">
                 {interestRate}
             </li>
-            <li className='strip'>
+            <li className="strip">
                 {duration}
             </li>
-            <li className='strip'>
+            <li className="strip">
                 {borrower}
             </li>
             <button 
-                className='strip' 
-                style={{backgroundColor: '#f5f5f5fa', border: 'solid 2px'}}
-                onClick={() => {
-                    lend();
-                }}
+                className="btn" 
+                onClick={() => lend()}
             >
                 LEND
             </button>
