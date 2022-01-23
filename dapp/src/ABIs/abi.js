@@ -49,13 +49,13 @@ const abi = [
         {
           "indexed": true,
           "internalType": "address",
-          "name": "_lender",
+          "name": "lender",
           "type": "address"
         },
         {
           "indexed": true,
           "internalType": "address",
-          "name": "_borrower",
+          "name": "borrower",
           "type": "address"
         }
       ],
