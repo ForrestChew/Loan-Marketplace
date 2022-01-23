@@ -98,37 +98,37 @@ contract Loans {
             activeLoans[_lender][msg.sender].isActive,
             "Nonexistant loan cannot be paid back"
         );
-        // Caluculates total borrower debt. Base loan + interest amount
-        //Ensures the correct amount of ETH is paid back
-        uint256 totalDebt = activeLoans[_lender][msg.sender].amount +
-            activeLoans[_lender][msg.sender].loanFractionAmount +
-            activeLoans[_lender][msg.sender].interestAmount;
-        require(msg.value == totalDebt, "Amount paid back must be exact");
         /*The if block will run when loan is fractional. The amount each lender gets is
         calculated and transfered to their account*/
+        // Caluculates total borrower debt. Base loan + interest amount
+        //Ensures the correct amount of ETH is paid back
         if (activeLoans[_lender][msg.sender].fractionalOwner != address(0)) {
+            require(
+                msg.value ==
+                    activeLoans[_lender][msg.sender].amount +
+                        activeLoans[_lender][msg.sender].loanFractionAmount,
+                "Amount paid back must be exact"
+            );
             (bool success, ) = _lender.call{
-                value: activeLoans[_lender][msg.sender].amount +
-                    (activeLoans[_lender][msg.sender].interestAmount / 2)
+                value: activeLoans[_lender][msg.sender].amount
             }("");
             require(success, "Transaction failed");
             (bool accept, ) = activeLoans[_lender][msg.sender]
                 .fractionalOwner
                 .call{
-                value: activeLoans[_lender][msg.sender].loanFractionAmount +
-                    (activeLoans[_lender][msg.sender].interestAmount / 2)
+                value: activeLoans[_lender][msg.sender].loanFractionAmount
             }("");
             require(accept, "Transaction failed");
             delete activeLoans[_lender][msg.sender];
             // The else block is run if the loan has only one owner
         } else {
-            // uint256 totalDebtFull = activeLoans[_lender][msg.sender].amount +
-            //     activeLoans[_lender][msg.sender].interestAmount;
-            // require(msg.value == totalDebt, "Amount paid back has to be exact");
-            (bool success, ) = _lender.call{
-                value: activeLoans[_lender][msg.sender].amount +
-                    activeLoans[_lender][msg.sender].interestAmount
-            }("");
+            uint256 totalDebtFull = activeLoans[_lender][msg.sender].amount +
+                activeLoans[_lender][msg.sender].interestAmount;
+            require(
+                msg.value == totalDebtFull,
+                "Amount paid back must be exact"
+            );
+            (bool success, ) = _lender.call{value: totalDebtFull}("");
             require(success, "Transaction failed");
             delete activeLoans[_lender][msg.sender];
         }
@@ -187,17 +187,12 @@ contract Loans {
             msg.value == activeLoans[_lender][_borrower].forSalePrice,
             "Incorrect ether amt"
         );
-
         //Assigns amounts and percentage split of target loan and updates struct fields
         activeLoans[_lender][_borrower]
             .loanFractionAmount = fractionalLoanAmount;
-
         activeLoans[_lender][_borrower].amount = newBaseLoanAmount;
-
         activeLoans[_lender][_borrower].isForSale = false;
-
         activeLoans[_lender][_borrower].fractionalOwner = msg.sender;
-
         (bool success, ) = _lender.call{value: msg.value}("");
         require(success, "Transaction failed");
     }
