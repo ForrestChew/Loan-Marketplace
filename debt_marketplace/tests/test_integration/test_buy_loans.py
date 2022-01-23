@@ -55,17 +55,31 @@ def test_buy_loan_fraction(deploy_contract, propose_loans, lend, account):
     propose_loans
     lend
     contract.listLoan(borrower, loan_list_price, 25, {"from": lender})
+    loan_fraction_percent = contract.activeLoans(lender, borrower)[6]
+    # Calculates the fractional amount to pass the smart contract as a parameter
+    fractional_amount = (
+        contract.activeLoans(lender, borrower)[0] * loan_fraction_percent
+    ) / (100 * 10 ** 18)
+    # Converts the amount to wei
+    fractional_amount_wei = w3.toWei(fractional_amount, "ether")
+    new_base_loan = contract.activeLoans(lender, borrower)[0] - fractional_amount_wei
     contract.buyLoanFraction(
-        lender, borrower, {"from": buyer, "value": loan_list_price}
+        lender,
+        borrower,
+        fractional_amount_wei,
+        new_base_loan,
+        {"from": buyer, "value": loan_list_price},
     )
-    assert contract.activeLoans(lender, borrower)[0] == w3.toWei(0.7875, "ether")
+    assert contract.activeLoans(lender, borrower)[0] == new_base_loan
     assert contract.activeLoans(lender, borrower)[1] == 5
     assert contract.activeLoans(lender, borrower)[2] == w3.toWei(0.05, "ether")
     assert contract.activeLoans(lender, borrower)[3] == 10
     assert contract.activeLoans(lender, borrower)[4] != 0
     assert contract.activeLoans(lender, borrower)[5] == loan_list_price
     assert contract.activeLoans(lender, borrower)[6] == 25
-    assert contract.activeLoans(lender, borrower)[7] == w3.toWei(0.2625, "ether")
+    assert contract.activeLoans(lender, borrower)[7] == w3.toWei(
+        fractional_amount, "ether"
+    )
     assert contract.activeLoans(lender, borrower)[8] == buyer
     assert contract.activeLoans(lender, borrower)[9] == False
     assert contract.activeLoans(lender, borrower)[10] == True

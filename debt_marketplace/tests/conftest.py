@@ -25,7 +25,7 @@ def deploy_contract(account):
 def propose_loans(deploy_contract, account):
     contract = deploy_contract
     propose_loan_tx = contract.proposeLoan(
-        w3.toWei(1, "ether"), 5, 10, {"from": account}  # days
+        w3.toWei(1, "ether"), 5, 10, {"from": account}
     )
     return propose_loan_tx
 
