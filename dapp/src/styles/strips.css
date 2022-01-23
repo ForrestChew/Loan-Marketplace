@@ -1,0 +1,18 @@
+.strip-container {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  margin: 14px;
+  margin-bottom: 24px;
+  background-color: rgb(219, 219, 219);
+}
+
+.strip {
+  font-size: 22px;
+  font-family: "Trebuchet MS";
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: rgb(190, 190, 190);
+}
