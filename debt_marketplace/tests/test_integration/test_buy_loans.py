@@ -25,8 +25,10 @@ def test_buy_full_loan(
     assert contract.activeLoans(buyer, borrower)[0] == w3.toWei(1, "ether")
     assert contract.activeLoans(buyer, borrower)[1] == 5
     assert contract.activeLoans(buyer, borrower)[2] == w3.toWei(0.05, "ether")
-    assert contract.activeLoans(buyer, borrower)[3] == 10
-    # active loan struct field 4 is tested in lend tests
+    # Multiplies the input number of days, which in this case is 10,
+    #by 86,400 to get the number of seconds
+    assert contract.activeLoans(buyer, borrower)[3] == 10 * 86400
+    # active loan struct field 4 is tested in lend tests. That's why it is missing.
     assert contract.activeLoans(buyer, borrower)[5] == 0
     # The loan fraction amount only calculates when the loan is owned by two parties.
     # E.G. the loan percentage is less than 100
@@ -73,7 +75,7 @@ def test_buy_loan_fraction(deploy_contract, propose_loans, lend, account):
     assert contract.activeLoans(lender, borrower)[0] == new_base_loan
     assert contract.activeLoans(lender, borrower)[1] == 5
     assert contract.activeLoans(lender, borrower)[2] == w3.toWei(0.05, "ether")
-    assert contract.activeLoans(lender, borrower)[3] == 10
+    assert contract.activeLoans(lender, borrower)[3] == 10 * 86400
     assert contract.activeLoans(lender, borrower)[4] != 0
     assert contract.activeLoans(lender, borrower)[5] == loan_list_price
     assert contract.activeLoans(lender, borrower)[6] == 25

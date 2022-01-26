@@ -16,7 +16,9 @@ def test_list_loan(deploy_contract, propose_loans, lend, list_loan, account):
     assert contract.activeLoans(lender, borrower)[0] == w3.toWei(1, "ether")
     assert contract.activeLoans(lender, borrower)[1] == 5
     assert contract.activeLoans(lender, borrower)[2] == w3.toWei(0.05, "ether")
-    assert contract.activeLoans(lender, borrower)[3] == 10
+    # Multiplies the input number of days, which in this case is 10,
+    # by 86,400 to get the number of seconds
+    assert contract.activeLoans(lender, borrower)[3] == 10 * 86400
     # active loan struct field 4 is tested in lend tests
     assert contract.activeLoans(lender, borrower)[5] == w3.toWei(1, "ether")
     assert contract.activeLoans(lender, borrower)[6] == 100

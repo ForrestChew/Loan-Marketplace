@@ -47,7 +47,8 @@ contract Loans {
             _amount,
             _interesetRatePercent,
             interestRateAmount,
-            _duration,
+            //Converts input days into seconds
+            _duration * 86400,
             0,
             0,
             0,
@@ -197,12 +198,12 @@ contract Loans {
         require(success, "Transaction failed");
     }
 
-    function blackListAddress(address _borrower) external {
+    function blacklistAddress(address _borrower) external {
         require(activeLoans[msg.sender][_borrower].isActive, "Loan not active");
         require(
-            block.timestamp -
-                activeLoans[msg.sender][_borrower].timestampStart >=
-                activeLoans[msg.sender][_borrower].duration,
+            block.timestamp >=
+                activeLoans[msg.sender][_borrower].timestampStart +
+                    activeLoans[msg.sender][_borrower].duration,
             "Loan has not expired yet"
         );
         isBlackListed[_borrower] = true;

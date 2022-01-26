@@ -38,7 +38,9 @@ def test_active_loan_duration(deploy_contract, propose_loans, lend, account):
     propose_loans
     lend
     active_loan_duration = contract.activeLoans(accounts[1], account)[3]
-    assert active_loan_duration == 10
+    # Multiplies the input number of days, which in this case is 10,
+    # by 86,400 to get the number of seconds
+    assert active_loan_duration == 10 * 86400
 
 
 def test_active_loan_duration(deploy_contract, propose_loans, lend, account):

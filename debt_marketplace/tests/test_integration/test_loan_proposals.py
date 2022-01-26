@@ -15,7 +15,9 @@ def test_propose_loan(deploy_contract, propose_loans, account):
     assert contract.proposedLoans(account)[0] == w3.toWei(1, "ether")
     assert contract.proposedLoans(account)[1] == 5
     assert contract.proposedLoans(account)[2] == w3.toWei(0.05, "ether")
-    assert contract.proposedLoans(account)[3] == 10
+    # Multiplies the input number of days, which in this case is 10,
+    # by 86,400 to get the number of seconds
+    assert contract.proposedLoans(account)[3] == 10 * 86400
     assert contract.proposedLoans(account)[4] == 0
     assert contract.proposedLoans(account)[5] == 0
     assert contract.proposedLoans(account)[6] == 0
