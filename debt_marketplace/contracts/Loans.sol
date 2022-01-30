@@ -16,7 +16,7 @@ contract Loans {
         bool isActive; //10
         bool isForSale; //11
     }
-    mapping(address => bool) public isBlackListed;
+    mapping(address => bool) public isBlacklisted;
     mapping(address => Loan) public proposedLoans;
     mapping(address => mapping(address => Loan)) public activeLoans;
 
@@ -198,6 +198,15 @@ contract Loans {
         require(success, "Transaction failed");
     }
 
+    // Deletes a loan proposal if loan is currently proposed
+    function deleteLoanProposal() public {
+        require(
+            proposedLoans[msg.sender].isProposed,
+            "Loan proposal does not exist"
+        );
+        delete proposedLoans[msg.sender];
+    }
+
     function blacklistAddress(address _borrower) external {
         require(activeLoans[msg.sender][_borrower].isActive, "Loan not active");
         require(
@@ -206,7 +215,7 @@ contract Loans {
                     activeLoans[msg.sender][_borrower].duration,
             "Loan has not expired yet"
         );
-        isBlackListed[_borrower] = true;
+        isBlacklisted[_borrower] = true;
         emit Blacklisted(_borrower);
     }
 
@@ -229,7 +238,7 @@ contract Loans {
     modifier blackListedCheck() {
         // Checks if the function caller's address is blacklisted
         require(
-            isBlackListed[msg.sender] == false,
+            isBlacklisted[msg.sender] == false,
             "This address is blacklisted"
         );
         _;
