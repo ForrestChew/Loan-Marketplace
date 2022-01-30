@@ -132,7 +132,7 @@ const UsersPositions = () => {
         await activeLoanQuery.destroy();
     }
 
-    // Invoked by the Sell Loan button
+    // Lists the loan for sale.
     const sellLoan = async (percentOfLoan, sellingPrice) => {
         await Moralis.enableWeb3();
         const listLoan = {
@@ -149,22 +149,41 @@ const UsersPositions = () => {
         await Moralis.executeFunction(listLoan);
         updateActiveLoan();
     }
-
-    // Adds fields to Moralis database
+    // Updatas active loan fields with the fractional loan listing info
     const updateActiveLoan = async () => {
         const query = new Moralis.Query('ActivatedLoans');
         const activeLoanQuery = await query.get(userLentLoans[0].id);
         activeLoanQuery.set('PercentOfLoanSold', listLoan.percentOfLoan);
         activeLoanQuery.set('SellingPrice', listLoan.sellingPrice);
-        activeLoanQuery.save().then((console.log("ActiveLoan updated and saved")));
+        await activeLoanQuery.save();
         updateDisplayStrip();
     }
-
+    //Updates the loan state variables in order to update the loan strips
     const updateDisplayStrip = async () => {
         const query = new Moralis.Query("ActivatedLoans");
         const activeLoanQuery = await query.get(userLentLoans[0].id);
         setQueriedPercentOfLoan(activeLoanQuery.attributes.PercentOfLoanSold);
         setQueriedSellingPrice(activeLoanQuery.attributes.SellingPrice);
+    }
+    // Deletes the user's loan proposal from blockchain and then calls a
+    // function to delete the proposal from Moralis database
+    const deleteLoanProposalFromChain = async () => {
+        const deleteProposalOptions = {
+            abi: ABI,
+            contractAddress: loansAddress,
+            chain: '1337',
+            functionName: 'deleteLoanProposal'
+        }
+        await Moralis.executeFunction(deleteProposalOptions);
+        // Calls function to delete loan proposal from database
+        deleteLoanProposalFromDatabase();
+    }
+    // Deletes loan proposal from database
+    const deleteLoanProposalFromDatabase = async () => {
+        const query = new Moralis.Query('LoanProposals');
+        // References the user's loan proposal
+        const proposalToDelete = await query.get(userProposals[0].id);
+        await proposalToDelete.destroy();
     }
 
     return (
@@ -176,6 +195,14 @@ const UsersPositions = () => {
                 return (
                     <div key={id} >
                         <h1 className='general'>Proposed</h1>
+                        <button
+                            className="btn"
+                            style={{marginLeft: '14px'}}
+                            onClick={() => 
+                                deleteLoanProposalFromChain()}
+                        >
+                            Delete Proposal
+                        </button>
                         <DisplayStrips 
                             amount={`Amount Proposed: ${Amount}`}
                             interestRate={`Interest Rate to Pay: ${InterestRate}`}
