@@ -2,12 +2,12 @@ Borrowers can propose loans and lenders can fill them. When a user fills a loan,
 
 **There are four sections to be aware of:**
 
- **1) Propose Loan**
- Users can make a loan proposal, but can have only one at most.
- **2) Browse Loans**  
- Users can view and fill loan proposals, but can only lend to one loan at a time. 
- **3) Browse Fractional Loans** 
- Users can view and buy fractions of loans. These fractions are sold by the lender to the original loan. 
- **4) Users Positions** 
- If applicable, users can view or delete their loan proposals, view their fractional loans, and payback their active loans. 
+ **1) Propose Loan**<br>
+ Users can make a loan proposal, but can have only one at most.<br>
+ **2) Browse Loans**  <br>
+ Users can view and fill loan proposals, but can only lend to one loan at a time.<br> 
+ **3) Browse Fractional Loans** <br>
+ Users can view and buy fractions of loans. These fractions are sold by the lender to the original loan.<br> 
+ **4) Users Positions** <br>
+ If applicable, users can view or delete their loan proposals, view their fractional loans, and payback their active loans.<br> 
   
