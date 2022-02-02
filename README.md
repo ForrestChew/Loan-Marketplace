@@ -49,7 +49,7 @@ npm start
 Once open, you will see:
 ADD PHOTO<br>
 
-# Navigating the dapp: <br>
+# Navigating the dapp <br>
  ### 1) Propose Loan <br>
  Users can make a loan proposal, but can have only one at most.
  ### 2) Browse Loans <br>  
