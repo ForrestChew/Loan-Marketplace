@@ -8,42 +8,42 @@ This walkthrough is done using the Avalanche Testnet Fuji, but any EVM compatibl
 
 **How to use:**<br>
 <br>
-## 1) Connect your MetaMask to the Avalanche Testnet Fuji: <br>
+### 1) Connect your MetaMask to the Avalanche Testnet Fuji: <br>
 -   **Network Name**: Avalanche FUJI C-Chain<br>
 -   **New RPC URL**:  https://api.avax-test.network/ext/bc/C/rpc<br>
 -   **ChainID**:  43113<br>
 -   **Symbol**:  AVAX<br>
 -   **Explorer**:  https://testnet.snowtrace.io/<br>
 <br>
-**2) Create Moralis server on the Avalanche Test network:**<br>
+### 2) Create Moralis server on the Avalanche Test network:<br>
 Instructions can be found: https://docs.moralis.io/moralis-server/getting-started<br>
 <br>
-**3) Clone repository**<br>
+### 3) Clone repository<br>
 ``
     git clone https://github.com/McManOfTheLand/Loan-Marketplace.git
 ``
 <br>
-**4) Create .env files**<br>
+### 4) Create .env files<br>
 In the root of your project directory create a .env file and add your Moralis Server URL, Application ID. In projects debt_marketplace directory, add another .env file and add your private key and your Web3 provider URL.
 ADD PHOTO
 <br>
 ADD PHOTO
 <br>
-**5) Install node dependencies**
+### 5) Install node dependencies
 ``
     npm install
 ``
 <br>
- **6)  Deploy Smart Contract**
+ ### 6)  Deploy Smart Contract
  While in the project's root directory, run the command:<br>
 ``
     brownie run scripts/deploy_loans.py --network avax-testnet
 ``
 <br>
- **7)  Connect smart contract to front end**<br>
+ ### 7)  Connect smart contract to front end<br>
  In order to connect the projects front end with our smart contract, the contract's abi, and it's address are needed. Assuming that the contracts source code has not been modified, it's unnecessary to change it since it's already provided in the  **Loan-Marketplace/src/ContractInfo/abi.js** folder. In the same folder, there is a file called **address.js**. Add your contract instance address to the specified area.<br>
 <br>
-**8) Launch dapp**<br>
+### 8) Launch dapp<br>
 In project's root directory, run the command:<br>
 ``
     npm start
@@ -51,8 +51,8 @@ In project's root directory, run the command:<br>
 Once open, you will see:
 ADD PHOTO<br>
 
-**There are four sections to be aware of in the dapp:**
-
+### There are four sections to be aware of in the dapp:<br>
+<br>
  **1) Propose Loan**
  Users can make a loan proposal, but can have only one at most.
  **2) Browse Loans**  
