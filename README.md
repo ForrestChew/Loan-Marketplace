@@ -59,4 +59,4 @@ ADD PHOTO<br>
  ### 4) Users Positions 
  If applicable, users can view or delete their loan proposals, view their fractional loans, and payback their active loans.
  
- For a detailed demo on the entirety of the dapp, watch this video:
+ ## For a detailed demo on the entirety of the dapp, watch this video:
