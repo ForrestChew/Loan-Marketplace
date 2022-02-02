@@ -14,6 +14,7 @@ This walkthrough is done using the Avalanche Testnet Fuji, but any EVM compatibl
 -   **ChainID**:  43113<br>
 -   **Symbol**:  AVAX<br>
 -   **Explorer**:  https://testnet.snowtrace.io/<br>
+
 <br>
 ### 2) Create Moralis server on the Avalanche Test network:<br>
 Instructions can be found: https://docs.moralis.io/moralis-server/getting-started<br>
