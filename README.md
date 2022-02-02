@@ -22,17 +22,19 @@ Instructions can be found: https://docs.moralis.io/moralis-server/getting-starte
 git clone https://github.com/McManOfTheLand/Loan-Marketplace.git
 ```
 ### 4) Create .env files <br>
-In the root of your project directory create a .env file and add your Moralis Server URL, Application ID. In projects debt_marketplace directory, add another .env file and add your private key and your Web3 provider URL.
-ADD PHOTO
+In the root of your project directory, create a .env file and add your Moralis Server URL and Application ID. 
+![](readmePhotos/moralis_env_info.PNG)
 <br>
-ADD PHOTO
+In the projects debt_marketplace directory, add another .env file, but this time add your private key and your Web3 provider URL.
+![](readmePhotos/private_key_and_provider_env.PNG)
 <br>
 ### 5) Install node dependencies <br>
+While in the project's root directory, run the command:
 ```
 npm install
 ```
  ### 6)  Deploy Smart Contract <br>
- While in the project's root directory, run the command:<br>
+ While in the project's root directory, run the command:
 ```
 brownie run scripts/deploy_loans.py --network avax-testnet
 ```
