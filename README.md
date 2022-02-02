@@ -4,9 +4,9 @@ This project depends heavily on Moralis's SDK and requires a Moralis server to f
 Also, this project overview assumes you have at least a basic understanding of MetaMask, but if you don't, here's a link to it's documentation - https://metamask.io/faqs/
 
 *Note: 
-This walkthrough is done using the Avalanche Testnet Fuji, but any EVM compatible blockchain will work.*
+This setup is done using the Avalanche Testnet Fuji, but any EVM compatible blockchain will work.*
 
-# How to use <br>
+# Setup steps <br>
 ### 1) Connect your MetaMask to the Avalanche Testnet Fuji: <br>
 -   **Network Name**: Avalanche FUJI C-Chain <br>
 -   **New RPC URL**:  https://api.avax-test.network/ext/bc/C/rpc <br>
