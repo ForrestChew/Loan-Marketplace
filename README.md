@@ -8,7 +8,7 @@ This walkthrough is done using the Avalanche Testnet Fuji, but any EVM compatibl
 
 **How to use:**<br>
 <br>
-##1) Connect your MetaMask to the Avalanche Testnet Fuji: <br>
+## 1) Connect your MetaMask to the Avalanche Testnet Fuji: <br>
 -   **Network Name**: Avalanche FUJI C-Chain<br>
 -   **New RPC URL**:  https://api.avax-test.network/ext/bc/C/rpc<br>
 -   **ChainID**:  43113<br>
