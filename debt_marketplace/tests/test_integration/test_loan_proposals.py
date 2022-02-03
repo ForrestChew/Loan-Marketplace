@@ -35,7 +35,7 @@ def test_propose_loan_reverts(deploy_contract, propose_loans, account):
     # Proposes first loan
     propose_loans
     # Attempts to propse a second loan with an already active proposal
-    with brownie.reverts("Account already has proposed loan or has active loan"):
+    with brownie.reverts("Proposal already exists"):
         propose_loan_tx = contract.proposeLoan(
             w3.toWei(2, "ether"),
             w3.toWei(0.1, "ether"),
