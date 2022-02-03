@@ -1,4 +1,5 @@
-# Tests the lend function functionality in smart contract
+# Tests the lend function functionality in smart contract.
+# Tests use setup fixtures that can be found in conftest.py
 import brownie
 from brownie import accounts
 from web3 import Web3
@@ -17,7 +18,7 @@ def test_lend(deploy_contract, lend, account):
     assert contract.activeLoans(lender, borrower)[1] == 5
     assert contract.activeLoans(lender, borrower)[2] == w3.toWei(0.05, "ether")
     # Multiplies the input number of days, which in this case is 10,
-    # by 86,400 to get the number of seconds. This will help determine when the loan expires down the road.
+    # by 86,400 to get the number of seconds. The will help determine when the loan expires down the road.
     assert contract.activeLoans(lender, borrower)[3] == 10 * 86400
     assert (
         contract.activeLoans(lender, borrower)[4]
