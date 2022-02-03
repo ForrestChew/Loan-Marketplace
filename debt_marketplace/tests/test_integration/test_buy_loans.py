@@ -89,7 +89,7 @@ def test_buy_loan_fraction(deploy_contract, propose_loans, lend, account):
 
 
 def test_buy_loan_no_active_loan_revert(deploy_contract, propose_loans, lend, account):
-    with brownie.reverts("non-existant"):
+    with brownie.reverts("Active loan is not for sale"):
         contract = deploy_contract
         propose_loans
         lend
@@ -99,7 +99,7 @@ def test_buy_loan_no_active_loan_revert(deploy_contract, propose_loans, lend, ac
 def test_buy_loan_wrong_amount_revert(
     deploy_contract, propose_loans, lend, list_loan, account
 ):
-    with brownie.reverts("Incorrect ether amt"):
+    with brownie.reverts("Incorrect ether amount"):
         contract = deploy_contract
         propose_loans
         lend
