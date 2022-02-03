@@ -2,8 +2,8 @@ from brownie import accounts, network, config
 
 LOCAL_BLOCKCHAIN_ENVIROMENTS = ["development", "ganache-cli", "mainnet-fork"]
 
-# Does not contain avax-test since it takes more hacking than just 
-# adding API token to .env file.
+# Does not contain avax-test since it takes more effort to verify
+# contract than any Ethereum based network
 TESTNET_BLOCKCHAIN_ENVIROMENTS = ["rinkeby", "kovan"]
 
 def get_account():
