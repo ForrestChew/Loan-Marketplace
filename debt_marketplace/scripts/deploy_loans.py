@@ -1,4 +1,4 @@
-from brownie import Loans, network, config
+from brownie import Loans, network
 from scripts.utils import TESTNET_BLOCKCHAIN_ENVIROMENTS
 from scripts.utils import get_account
 
