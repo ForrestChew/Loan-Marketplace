@@ -1,5 +1,6 @@
 # Tests buying both full, and fractional loans. 
-# This takes place after a lender lists their loan for X price for X percentage
+# This takes place after a lender lists their loan for X price for X percentage.
+# Tests use setup fixtures that can be found in conftest.py
 import brownie
 from brownie import accounts
 from web3 import Web3
