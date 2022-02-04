@@ -8,11 +8,11 @@ This setup is done using the Rinkeby Testnet, but any EVM compatible blockchain 
 
 # Setup steps <br>
 ### 1) Connect your MetaMask to the Avalanche Testnet Fuji: <br>
--   **Network Name**: Rinkeby Test Network <br>
--   **New RPC URL**:  https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161 <br>
--   **ChainID**:  4<br>
--   **Symbol**:  ETH<br>
--   **Explorer**:  https://rinkeby.etherscan.io <br>
+-   **Network Name**: `Rinkeby Test Network` <br>
+-   **New RPC URL**: `https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161` <br>
+-   **ChainID**: `4` <br>
+-   **Symbol**: `ETH` <br>
+-   **Explorer**: `https://rinkeby.etherscan.io` <br>
 
 ### 2) Create Moralis server on the Avalanche Test network:  <br>
 Instructions can be found: https://docs.moralis.io/moralis-server/getting-started <br>
