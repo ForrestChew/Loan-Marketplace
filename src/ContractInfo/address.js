@@ -1,3 +1,4 @@
-const loansAddress = '0x43d7d4379f372DE8037D1ffBf8025b5880Ba4a78';
+//Please input the deployed contracts address below:
+const loansAddress = '0x9468618cE58978b5ce97Af2aBb52310053aEB1F5';
 
 export default loansAddress;
