@@ -1,4 +1,5 @@
 # Tests the payback functionallity of the smart contract.
+# Tests use setup fixtures that can be found in conftest.py
 import brownie
 from brownie import accounts
 from web3 import Web3
