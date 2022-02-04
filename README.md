@@ -1,18 +1,18 @@
 Borrowers can propose loans and lenders can fill them. If a proposal is filled, the lender has the right to sell that loan to a third party for a price in ether. This price is set by the lender. The lender also has the option to sell fraction of the loan. The lender gets to decide the percent fraction of the loan they want to sell, and for how much. At most, one fractional owner of a loan is allowed, and therefore, in it's current form, this project will not scale. When a third party buys a fraction of a loan, it is entirey possible that the borrower will never know. A borrower will not be notified if their loan has been sold to a third party, however, if they look up their loan, they will be able to find all information. In essence, the borrower is only given the "need to know" information about their loan. If a loan has multiple owners, the smart contract will hanlde distributing funds correctly to both the fractional buyer and the original lender.
 
-This project depends heavily on Moralis's SDK and requires a Moralis server to function. A free account can be made -  https://moralis.io/
+This project depends heavily on Moralis's SDK and requires a Moralis server to function. A free account can be made -  https://moralis.io/ <br>
 Also, this project overview assumes you have at least a basic understanding of MetaMask, but if you don't, here's a link to it's documentation - https://metamask.io/faqs/
 
 *Note: 
-This setup is done using the Avalanche Testnet Fuji, but any EVM compatible blockchain will work.*
+This setup is done using the Rinkeby Testnet, but any EVM compatible blockchain will work.*
 
 # Setup steps <br>
 ### 1) Connect your MetaMask to the Avalanche Testnet Fuji: <br>
--   **Network Name**: Avalanche FUJI C-Chain <br>
--   **New RPC URL**:  https://api.avax-test.network/ext/bc/C/rpc <br>
--   **ChainID**:  43113<br>
--   **Symbol**:  AVAX<br>
--   **Explorer**:  https://testnet.snowtrace.io/ <br>
+-   **Network Name**: Rinkeby Test Network <br>
+-   **New RPC URL**:  https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161 <br>
+-   **ChainID**:  4<br>
+-   **Symbol**:  ETH<br>
+-   **Explorer**:  https://rinkeby.etherscan.io <br>
 
 ### 2) Create Moralis server on the Avalanche Test network:  <br>
 Instructions can be found: https://docs.moralis.io/moralis-server/getting-started <br>
