@@ -7,14 +7,14 @@ Also, this project overview assumes you have at least a basic understanding of M
 This setup is done using the Rinkeby Testnet, but any EVM compatible blockchain will work.*
 
 # Setup steps <br>
-### 1) Connect your MetaMask to the Avalanche Testnet Fuji: <br>
+### 1) Connect your MetaMask to the Rinkeby Test Network: <br>
 -   **Network Name**: `Rinkeby Test Network` <br>
 -   **New RPC URL**: `https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161` <br>
 -   **ChainID**: `4` <br>
 -   **Symbol**: `ETH` <br>
 -   **Explorer**: `https://rinkeby.etherscan.io` <br>
 
-### 2) Create Moralis server on the Avalanche Test network:  <br>
+### 2) Create Moralis server on the Rinkeby Test network:  <br>
 Instructions can be found: https://docs.moralis.io/moralis-server/getting-started <br>
 <br>
 ### 3) Clone repository <br>
@@ -25,7 +25,7 @@ git clone https://github.com/McManOfTheLand/Loan-Marketplace.git
 In the root of your project directory, create a .env file and add your Moralis Server URL and Application ID. 
 ![](readmePhotos/moralis_env_info.PNG)
 <br>
-In the projects debt_marketplace directory, add another .env file, but this time add your private key and your Web3 provider URL.
+In the projects debt_marketplace directory, add another .env file, but this time add your private key and your Web3 provider URL. Moralis has their own node providers, but you are fredd to use any provider you wish as long as it's for the Rinkey testnet.
 ![](readmePhotos/private_key_and_provider_env.PNG)
 <br>
 ### 5) Install node dependencies <br>
@@ -36,10 +36,10 @@ npm install
  ### 6)  Deploy Smart Contract <br>
  While in the project's root directory, run the command:
 ```
-brownie run scripts/deploy_loans.py --network avax-testnet
+brownie run scripts/deploy_loans.py --network rinkeby
 ```
  ### 7)  Connect smart contract to front end <br>
- In order to connect the projects front end with our smart contract, the contract's abi, and it's address are needed. Assuming that the contracts source code has not been modified, it's unnecessary to change it since it's already provided in the  **Loan-Marketplace/src/ContractInfo/abi.js** folder. In the same folder, there is a file called **address.js**. Add your contract instance address to the specified area.<br>
+ In order to connect the front end to the smart contract, the contract's abi, and it's address are needed. Assuming that the contracts source code has not been altered since cloning, the contracts abi can be found - **Loan-Marketplace/src/ContractInfo/abi.js**. In the same directory, there is a file called **address.js**. Add your deployed contract instance address to the specified area.<br>
 <br>
 ### 8) Launch dapp <br>
 In project's root directory, run the command:<br>
