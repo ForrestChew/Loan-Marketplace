@@ -1,3 +1,4 @@
+# This file contains fixtures to be used in each unit and integration test
 import pytest
 from brownie import Loans, accounts
 from scripts.utils import get_account
@@ -34,6 +35,7 @@ def propose_loans(deploy_contract, account):
     return propose_loan_tx
 
 
+# User deletes their loan proposal
 @pytest.fixture()
 def delete_loan_proposal(deploy_contract, propose_loans, account):
     borrower = account
@@ -53,20 +55,6 @@ def lend(deploy_contract, propose_loans, account):
     loan_amount = contract.proposedLoans(borrower)[0]
     lend_tx = contract.lend(borrower, {"from": lender, "value": loan_amount})
     return lend_tx
-
-
-# Sets up a loan where the borrower paysback the lender
-@pytest.fixture()
-def payback(deploy_contract, propose_loans, account):
-    borrower = account
-    lender = accounts[1]
-    contract = deploy_contract
-    propose_loans
-    amount_borrowed = contract.activeLoans(lender, borrower)[0]
-    amount_borrowed_interest = contract.activeLoans(lender, borrower)[6]
-    total_debt = amount_borrowed + amount_borrowed_interest
-    contract.payback(lender, {"from": borrower, "value": total_debt})
-
 
 # Sets up a loan where the lender lists a 100% of that loan to sell
 @pytest.fixture
@@ -94,7 +82,7 @@ def list_fractional_loan(deploy_contract, lend, account):
     return list_fractional_loan_tx
 
 
-# Sets up a loan where the lender wants to sell 100% of
+# Simulates a loan where the lender lists 100% of their loan and a third party buys it
 @pytest.fixture
 def buy_loan(deploy_contract, list_loan, account):
     contract = deploy_contract
@@ -109,7 +97,7 @@ def buy_loan(deploy_contract, list_loan, account):
     return buy_loan_tx
 
 
-# Simulates a loan where the lender wants to sell part of
+# Simulates a loan where the lender lists a fraction of their loan and a third party buys it
 @pytest.fixture
 def buy_loan_fractional(deploy_contract, list_fractional_loan, account):
     contract = deploy_contract
