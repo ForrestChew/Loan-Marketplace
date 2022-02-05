@@ -5,6 +5,7 @@ from web3 import Web3
 # using Ganache-cli as the provider
 w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
 
+
 # Confirms that the loans inital amount matches the users input
 def test_proposed_loan_amount(deploy_contract, propose_loans, account):
     borrower = account

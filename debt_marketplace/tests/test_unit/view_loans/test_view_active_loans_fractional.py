@@ -18,7 +18,7 @@ def test_active_loan_amount(deploy_contract, buy_loan_fractional, account):
     assert active_loan_amount == w3.toWei(0.525, "ether")
 
 
-# Confirms that the loan matches percentage matches the users input
+# Confirms that the loan's interest percentage matches the user's input
 def test_active_loan_interest_percentage(deploy_contract, buy_loan_fractional, account):
     borrower = account
     lender = accounts[1]
@@ -29,7 +29,7 @@ def test_active_loan_interest_percentage(deploy_contract, buy_loan_fractional, a
     assert active_loan_interest_percentage == 5
 
 
-# Confirms that the loan's interest rate matches users input
+# Confirms that the loan's interest amount matches users input
 def test_active_loan_interest_amount(deploy_contract, buy_loan_fractional, account):
     borrower = account
     lender = accounts[1]
@@ -39,7 +39,7 @@ def test_active_loan_interest_amount(deploy_contract, buy_loan_fractional, accou
     assert loan_interest_amount == w3.toWei(0.05, "ether")
 
 
-# Confirms that the loan duration is set to 10 days
+# Confirms that the loan's duration matches the user's input
 def test_active_loan_duration(deploy_contract, buy_loan_fractional, account):
     borrower = account
     lender = accounts[1]
@@ -57,7 +57,7 @@ def test_active_loan_timestamp_start(deploy_contract, buy_loan_fractional, accou
     contract = deploy_contract
     buy_loan_fractional
     timestamp_start = contract.viewActiveLoans(lender, borrower)[4]
-    # Asserting timestamps with minus one because one block is mined by the time this assertion happens
+    # Asserting timestamps with minus one because at least one block is mined by the time this assertion happens
     assert timestamp_start <= w3.eth.get_block("latest").timestamp
 
 
@@ -71,7 +71,7 @@ def test_active_loan_for_sale_price(deploy_contract, buy_loan_fractional, accoun
     assert loan_for_sale_price == w3.toWei(0.5, "ether")
 
 
-# Confirms that the fractional split on the loan is 50%
+# Confirms that the fractional percentage on the loan is 50%
 # The conversion is done in conftest.py
 def test_active_loan_fractional_split(deploy_contract, buy_loan_fractional, account):
     borrower = account
