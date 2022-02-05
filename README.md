@@ -1,4 +1,4 @@
-# Loan Marketplace <br>
+# Simple Loan Marketplace <br>
 
 Borrowers can propose loans and lenders can fill them. If a proposal is filled, the lender has the right to sell that loan to a third party for a price in ether. This price is set by the lender. The lender also has the option to sell fraction of the loan. The lender gets to decide the percent fraction of the loan they want to sell, and for how much. At most, one fractional owner of a loan is allowed, and therefore, in it's current form, this project will not scale. When a third party buys a fraction of a loan, it is entirey possible that the borrower will never know. A borrower will not be notified if their loan has been sold to a third party, however, if they look up their loan, they will be able to find all information. In essence, the borrower is only given the "need to know" information about their loan. If a loan has multiple owners, the smart contract will hanlde distributing funds correctly to both the fractional buyer and the original lender.
 
