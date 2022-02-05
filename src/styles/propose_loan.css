@@ -19,7 +19,7 @@
 label {
   font-size: 28px;
   color: #f5f5f5;
-  font-family: "candara";
+  font-family: 'candara';
   letter-spacing: 2px;
   padding: 12px;
 }
@@ -30,5 +30,5 @@ input {
   border-radius: 12px;
   letter-spacing: 2px;
   font-size: 16px;
-  font-family: "candara";
+  font-family: 'candara';
 }

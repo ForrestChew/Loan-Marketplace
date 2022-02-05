@@ -8,15 +8,13 @@ import { MoralisProvider } from 'react-moralis';
 const appId = process.env.REACT_APP_APP_ID;
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-
 ReactDOM.render(
   <StrictMode>
-      <MoralisProvider appId={appId} serverUrl={serverUrl}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-      </MoralisProvider>
+    <MoralisProvider appId={appId} serverUrl={serverUrl}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </MoralisProvider>
   </StrictMode>,
   document.getElementById('root')
 );
-

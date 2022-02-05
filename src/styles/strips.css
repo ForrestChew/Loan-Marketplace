@@ -9,7 +9,7 @@
 
 .strip {
   font-size: 22px;
-  font-family: "Trebuchet MS";
+  font-family: 'Trebuchet MS';
 }
 
 .btn:hover {
@@ -24,6 +24,6 @@
   width: 50%;
   margin: auto;
   color: #f5f5f5;
-  font-family: "candara";
+  font-family: 'candara';
   padding: 24px;
 }

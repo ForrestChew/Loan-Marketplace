@@ -8,7 +8,7 @@
   display: block;
   color: #f5f5f5;
   text-align: center;
-  font-family: "candara";
+  font-family: 'candara';
   font-size: 28px;
   letter-spacing: 2px;
   padding: 30px 32px;
@@ -20,7 +20,7 @@
   display: block;
   color: #f5f5f5;
   text-align: center;
-  font-family: "candara";
+  font-family: 'candara';
   font-size: 28px;
   letter-spacing: 2px;
   padding: 30px 32px;
@@ -34,7 +34,7 @@
 .crypto-login {
   height: 100px;
   width: 225px;
-  font-family: "candara";
+  font-family: 'candara';
   font-size: 28px;
   color: #121212;
   background-color: #f5f5f5;
@@ -52,7 +52,7 @@
 .btn {
   text-align: center;
   cursor: pointer;
-  font-family: "candara";
+  font-family: 'candara';
   font-size: 20px;
   border: black solid 1.25px;
   width: 250px;
