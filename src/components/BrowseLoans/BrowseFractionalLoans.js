@@ -56,7 +56,7 @@ const BrowseFractionalLoans = () => {
         } = loan.attributes;
         return (
           <div key={id}>
-            {/* Only displays loans the do not have a fractional buyer 
+            {/* Only displays loans the do not have a fractional buyer, 
             since that means the loan cannot have been sold. */}
             {FractionalBuyersAddr || (
               <FractionalStrip

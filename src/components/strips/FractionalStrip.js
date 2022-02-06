@@ -1,6 +1,6 @@
-import { useMoralis } from 'react-moralis';
-import ABI from '../../ContractInfo/abi';
-import loansAddress from '../../ContractInfo/address';
+import { useMoralis } from "react-moralis";
+import abi from "../../ContractInfo/abi";
+import loansAddress from "../../ContractInfo/address";
 const FractionalStrip = ({
   amount,
   interestRate,
@@ -13,24 +13,29 @@ const FractionalStrip = ({
   id,
 }) => {
   const { Moralis, user } = useMoralis();
-
+  // Function that gets invokes on button click.
   const buyFullLoan = async () => {
     await Moralis.enableWeb3();
-    // Isolates and converts selling price into a number
+    /* 
+    Isolates and converts the loan fractions selling price from a string to a number.
+    Then, it converts floating point number to wei to be used in onchain function call.
+    */
     const sellingPriceIso = sellingPrice.substring(21);
     const sellingPriceIsoToNum = parseFloat(sellingPriceIso);
     const ethInWei = Moralis.Units.ETH(sellingPriceIsoToNum);
-    // Isolates borrower prop address
-    const borrowerAddr = borrower.split(' ');
-    console.log(borrowerAddr[1]);
-    // Isolates lender prop address
-    const lenderAddr = lender.split(' ');
-    console.log(lenderAddr[1]);
+    /* 
+    Splits borrower's and lender's address propoerty into string arrays in 
+    order to isolate both addresses. The addresses are then refrenced by 
+    their index and passed as parameters to smart contract. 
+    */
+    const borrowerAddr = borrower.split(" ");
+    const lenderAddr = lender.split(" ");
+    // Defines function call object to smart contract.
     const buyFullLoan = {
-      abi: ABI,
+      abi,
       contractAddress: loansAddress,
-      chain: '1337',
-      functionName: 'buyLoan',
+      chain: "1337",
+      functionName: "buyLoan",
       msgValue: ethInWei,
       params: {
         _lender: lenderAddr[1],
@@ -38,31 +43,41 @@ const FractionalStrip = ({
       },
     };
     await Moralis.executeFunction(buyFullLoan);
-    /* Since this function is only ran if lender is selling 100%
-        of the loan, the "Lender" field in database will update
-        with buyer's (new owner) address and resset loan fractions fields to 
-        undefined*/
-    const query = new Moralis.Query('ActivatedLoans');
+    /* 
+    Since this function is only ran if lender is selling 100%
+    of the loan, the "Lender" field in database will update with the 
+    third party buyer's address, and will reset loan fraction fields back to undefined
+    */
+    const query = new Moralis.Query("ActivatedLoans");
     const queryToUpdate = await query.get(id);
-    queryToUpdate.set('Lender', user.get('ethAddress'));
-    queryToUpdate.set('PercentOfLoanSold', 'undefined');
-    queryToUpdate.set('SellingPrice', 'undefined');
+    queryToUpdate.set("Lender", user.get("ethAddress"));
+    queryToUpdate.set("PercentOfLoanSold", "undefined");
+    queryToUpdate.set("SellingPrice", "undefined");
     await queryToUpdate.save();
   };
-
+  // Function is called when a third party buys a fraction of a loan
   const buyFractionalLoan = async () => {
     await Moralis.enableWeb3();
-    // Isolates and converts selling price into a number
+    /* 
+    Isolates and converts the loan fractions selling price from a string to a number.
+    Then, it converts floating point number to wei to be used in onchain function call.
+    */
     const sellingPriceIso = sellingPrice.substring(21);
     const sellingPriceIsoToNum = parseFloat(sellingPriceIso);
     const ethInWei = Moralis.Units.ETH(sellingPriceIsoToNum);
-    // Isolates borrower prop address
-    const borrowerAddr = borrower.split(' ');
-    // Isolates lender prop address
-    const lenderAddr = lender.split(' ');
-    /* Isolates the base loan and interest rate amount strings, converts them into
-        floats, calculates the total fractional loan amount, and passes it to the
-        "buyLoanFraction" function parameter in smart contract */
+    /* 
+    Splits borrower's and lender's address propoerty into string arrays in 
+    order to isolate both addresses. The addresses are then refrenced by 
+    their index and passed as parameters to smart contract. 
+    */
+    const borrowerAddr = borrower.split(" ");
+    const lenderAddr = lender.split(" ");
+    /* 
+    Isolates the base loan and interest rate amount strings, converts them into
+    floating point numbers, calculates the total fractional loan amount, calculates 
+    the new base loan amount, and converts both numbers to wei to be passed as parameters 
+    to smart contract.
+    */
     const amountIso = amount.substring(21);
     const amountIsoFloat = parseFloat(amountIso);
     const interestAmountIso = interestAmount.substring(24);
@@ -79,10 +94,10 @@ const FractionalStrip = ({
     const newOwedAmountToWei = Moralis.Units.ETH(newOwedAmount);
     // Declares buyLoanFraction function call object
     const buyFractionalLoan = {
-      abi: ABI,
+      abi,
       contractAddress: loansAddress,
-      chain: '1337',
-      functionName: 'buyLoanFraction',
+      chain: "1337",
+      functionName: "buyLoanFraction",
       msgValue: ethInWei,
       params: {
         _lender: lenderAddr[1],
@@ -91,17 +106,20 @@ const FractionalStrip = ({
         newBaseLoanAmount: newOwedAmountToWei,
       },
     };
-    // Executes buyLoanFraction with the above object
+    /* 
+    Executes buyLoanFraction with the above object, 
+    then updates the active loan with new loan information
+    */
     await Moralis.executeFunction(buyFractionalLoan);
-    const query = new Moralis.Query('ActivatedLoans');
+    const query = new Moralis.Query("ActivatedLoans");
     const queriedLoan = await query.get(id);
-    queriedLoan.set('FractionalBuyersAddr', user.get('ethAddress'));
-    queriedLoan.set('FractionalAmount', totalLoanFractionAmount);
+    queriedLoan.set("FractionalBuyersAddr", user.get("ethAddress"));
+    queriedLoan.set("FractionalAmount", totalLoanFractionAmount);
     await queriedLoan.save();
   };
 
   return (
-    <div className="strip-container" style={{ border: '6px solid gray' }}>
+    <div className="strip-container" style={{ border: "6px solid gray" }}>
       <li className="strip">{amount}</li>
       <li className="strip">{interestRate}</li>
       <li className="strip">{interestAmount}</li>
@@ -112,8 +130,12 @@ const FractionalStrip = ({
       <li className="strip">{sellingPrice}</li>
       <button
         className="btn"
+        /*
+         Determins which function to run based on whether the lender
+         is selling 100% of their loan, or just a fraction
+        */
         onClick={
-          percentSold.split(' ')[5] === '100'
+          percentSold.split(" ")[5] === "100"
             ? () => buyFullLoan()
             : () => buyFractionalLoan()
         }

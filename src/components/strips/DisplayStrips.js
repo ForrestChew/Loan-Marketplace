@@ -1,3 +1,4 @@
+// Component for displaying users positions
 const DisplayStrips = ({
   amount,
   interestRate,
@@ -8,7 +9,7 @@ const DisplayStrips = ({
   sellingPrice,
 }) => {
   return (
-    <div className="strip-container" style={{ border: '6px solid gray' }}>
+    <div className="strip-container" style={{ border: "6px solid gray" }}>
       <li className="strip">{amount}</li>
       <li className="strip">{interestRate}</li>
       <li className="strip">{duration}</li>

@@ -1,10 +1,11 @@
-import React, { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import './styles/index.css';
-import { BrowserRouter } from 'react-router-dom';
-import { MoralisProvider } from 'react-moralis';
+import React, { StrictMode } from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import "./styles/index.css";
+import { BrowserRouter } from "react-router-dom";
+import { MoralisProvider } from "react-moralis";
 
+// Moralis server url and app id. These should be obtained and added to a .env file
 const appId = process.env.REACT_APP_APP_ID;
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -16,5 +17,5 @@ ReactDOM.render(
       </BrowserRouter>
     </MoralisProvider>
   </StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

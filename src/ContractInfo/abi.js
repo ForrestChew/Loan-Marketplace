@@ -1,3 +1,4 @@
+// ABI of Loans smart contract
 const abi = [
   {
     anonymous: false,
