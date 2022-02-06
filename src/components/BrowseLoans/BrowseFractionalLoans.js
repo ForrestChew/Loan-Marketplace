@@ -1,29 +1,45 @@
-import { useState, useEffect, useRef } from 'react';
-import { useMoralis } from 'react-moralis';
-import FractionalStrip from '../strips/FractionalStrip';
+/* 
+This file queries active loans that have been listed by the 
+lender, and displays them in the "Browse Fractional Loans" tab.
+*/
+import { useState, useEffect, useRef } from "react";
+import { useMoralis } from "react-moralis";
+import FractionalStrip from "../strips/FractionalStrip";
 const BrowseFractionalLoans = () => {
   const { Moralis } = useMoralis();
+  // Defines an array that will be populated with fractional loans
   const [loans, setLoans] = useState([]);
+  /* 
+  The useRef hook is used to prevent an endless loop that would
+  otherwise appear from the useEffect.
+  */
   const hasFetchedData = useRef(false);
-
+  // Queries the fractional loan proposals from Moralis database
   useEffect(() => {
     const getForSaleLoans = async () => {
+      // The if block will only run when useRef is false
       if (!hasFetchedData.current) {
         await Moralis.enableWeb3();
-        // Loops through active loans to find loans for sale
-        const query = new Moralis.Query('ActivatedLoans');
+        const query = new Moralis.Query("ActivatedLoans");
         const allLoans = await query.find();
+        // Only retrieves the fractional loans
         const fractionalLoansIso = allLoans.filter(
           (loan) => loan.attributes.SellingPrice > 0
         );
+        // Locks the if block so an enless loop cannot occur
         hasFetchedData.current = true;
         setLoans(fractionalLoansIso);
       }
     };
     getForSaleLoans();
-  }, [Moralis, loans]);
+  }, [Moralis]);
 
   return (
+    /* 
+    Destructures the loans to retrieve their attributes, then
+    passes the attributes as props to the fractional strip component
+    to dsiplay.
+    */
     <>
       {loans.map((loan) => {
         const { id } = loan;
@@ -40,6 +56,8 @@ const BrowseFractionalLoans = () => {
         } = loan.attributes;
         return (
           <div key={id}>
+            {/* Only displays loans the do not have a fractional buyer 
+            since that means the loan cannot have been sold. */}
             {FractionalBuyersAddr || (
               <FractionalStrip
                 amount={`Asking amount in ETH: ${Amount}`}
