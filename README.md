@@ -58,17 +58,17 @@ In project's root directory, run the command:<br>
 ```
 npm start
 ```
-Once open, you will see:
-ADD PHOTO<br>
-
 # Navigating the dapp <br>
- ### 1) Propose Loan <br>
- Users can make a loan proposal, but can have only one at most.
- ### 2) Browse Loans <br>  
+ ### 1) Crypto Login <br>
+ Users can login with MetaMask
+ ### 2) Propose Loan <br>
+ Once logged in, users can make a loan proposal, but can have only one at most.
+ ![](readmePhotos/
+ ### 3) Browse Loans <br>  
  Users can view and fill loan proposals, but can only lend to one loan at a time. 
- ### 3) Browse Fractional Loans <br> 
+ ### 4) Browse Fractional Loans <br> 
  Users can view and buy fractions of loans. These fractions are sold by the lender to the original loan. 
- ### 4) Users Positions 
+ ### 5) Users Positions 
  If applicable, users can view or delete their loan proposals, view their fractional loans, and payback their active loans.
  
 
