@@ -51,8 +51,8 @@ A successful deployment should look like: <br>
 ![](readmePhotos/deployment_success.PNG "Console output on successful deployment") <br>
 ![](readmePhotos/deployment_success_etherscan.PNG "Contract deployed and verified on Etherscan") <br>
  ### 7)  Connect smart contract to front end <br>
- In order to connect the front end to the smart contract, the contract's abi, and it's address are needed. Assuming that the contracts source code has not been altered since cloning, the contracts abi can be found - **Loan-Marketplace/src/ContractInfo/abi.js**. In the same directory, there is a file called **address.js**. Add your deployed contract instance address to the specified area.<br>
-<br>
+ In order to connect the front end to the smart contract, the contract's abi, and it's address are needed. Assuming that the contracts source code has not been altered since cloning, the contracts abi can be found - **Loan-Marketplace/src/ContractInfo/abi.js**. In the same directory, there is a file called **address.js**. Add your deployed contract instance address to the specified area. <br>
+ ![](readmePhotos/add_address.PNG "Add deployed contract instance address") <br>
 ### 8) Launch dapp <br>
 In project's root directory, run the command:<br>
 ```
