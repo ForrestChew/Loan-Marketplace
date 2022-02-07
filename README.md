@@ -34,7 +34,7 @@ git clone https://github.com/McManOfTheLand/Loan-Marketplace.git
 In the root of your project directory, create a .env file and add your Moralis Server URL and Application ID. 
 ![](readmePhotos/moralis_env_info.PNG)
 <br>
-In the projects debt_marketplace directory, add another .env file, but this time add your private key and your Web3 provider URL. Moralis has their own node providers, but you are free to use any provider you wish as long as it's for the Rinkey testnet.
+In the projects debt_marketplace directory, add another .env file, and add your provider url, your private key, and you Etherscan API token.
 ![](readmePhotos/debt_marketplace_env_info.PNG)
 <br>
 ### 5) Install node dependencies <br>
