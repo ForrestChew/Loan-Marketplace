@@ -2,9 +2,9 @@
 This file queries loan proposals from Moralis database, 
 and displays them in the "Browse Loans" tab.
 */
-import { useState, useEffect, useRef } from "react";
-import { useMoralis } from "react-moralis";
-import Strip from "../strips/Strip";
+import { useState, useEffect, useRef } from 'react';
+import { useMoralis } from 'react-moralis';
+import Strip from '../strips/Strip';
 
 const BrowseLoans = () => {
   const { Moralis } = useMoralis();
@@ -22,7 +22,7 @@ const BrowseLoans = () => {
       if (!hasFetchedData.current) {
         await Moralis.enableWeb3();
         // Queries all the loan proposals from Moralis DB
-        const query = new Moralis.Query("LoanProposals");
+        const query = new Moralis.Query('LoanProposals');
         const allLoans = await query.find();
         setLoans(allLoans);
         hasFetchedData.current = true;

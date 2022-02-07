@@ -1,43 +1,43 @@
-import { NavLink } from "react-router-dom";
-import { useMoralis } from "react-moralis";
-import CryptoLogin from "./CryptoLogin";
-import UserAddress from "./UserAddress";
+import { NavLink } from 'react-router-dom';
+import { useMoralis } from 'react-moralis';
+import CryptoLogin from './CryptoLogin';
+import UserAddress from './UserAddress';
 
 const NavBar = () => {
   const { isAuthenticated } = useMoralis();
   return (
     // Navbar uses NavLink component in order to keep track of bread crumbs
-    <nav className="navbar">
+    <nav className='navbar'>
       <NavLink
         className={(navData) =>
-          navData.isActive ? "list-item-active" : "list-item"
+          navData.isActive ? 'list-item-active' : 'list-item'
         }
-        to="/"
+        to='/'
         end
       >
         Propose Loan
       </NavLink>
       <NavLink
         className={(navData) =>
-          navData.isActive ? "list-item-active" : "list-item"
+          navData.isActive ? 'list-item-active' : 'list-item'
         }
-        to="/browse-loans"
+        to='/browse-loans'
       >
         Browse Loans
       </NavLink>
       <NavLink
         className={(navData) =>
-          navData.isActive ? "list-item-active" : "list-item"
+          navData.isActive ? 'list-item-active' : 'list-item'
         }
-        to="/browse-fractional-loans"
+        to='/browse-fractional-loans'
       >
         Browse Fractional Loans
       </NavLink>
       <NavLink
         className={(navData) =>
-          navData.isActive ? "list-item-active" : "list-item"
+          navData.isActive ? 'list-item-active' : 'list-item'
         }
-        to="/users-positions"
+        to='/users-positions'
       >
         Users Positions
       </NavLink>

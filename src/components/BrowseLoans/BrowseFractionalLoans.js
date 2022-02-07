@@ -2,9 +2,9 @@
 This file queries active loans from the Moralis database that have been listed 
 by the lender, and displays them in the "Browse Fractional Loans" tab.
 */
-import { useState, useEffect, useRef } from "react";
-import { useMoralis } from "react-moralis";
-import FractionalStrip from "../strips/FractionalStrip";
+import { useState, useEffect, useRef } from 'react';
+import { useMoralis } from 'react-moralis';
+import FractionalStrip from '../strips/FractionalStrip';
 const BrowseFractionalLoans = () => {
   const { Moralis } = useMoralis();
   // Defines an array that will be populated with loans that are for sale
@@ -20,7 +20,7 @@ const BrowseFractionalLoans = () => {
       // The if block will only run when useRef is false to prevent endless loop
       if (!hasFetchedData.current) {
         await Moralis.enableWeb3();
-        const query = new Moralis.Query("ActivatedLoans");
+        const query = new Moralis.Query('ActivatedLoans');
         const allLoans = await query.find();
         // Only retrieves the fractional loans
         const fractionalLoansIso = allLoans.filter(

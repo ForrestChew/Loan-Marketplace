@@ -1,9 +1,9 @@
-import { useMoralis } from "react-moralis";
-import { useState } from "react";
-import abi from "../ContractInfo/abi";
-import loansAddress from "../ContractInfo/address";
-import "../styles/propose_loan.css";
-import "../styles/index.css";
+import { useMoralis } from 'react-moralis';
+import { useState } from 'react';
+import abi from '../ContractInfo/abi';
+import loansAddress from '../ContractInfo/address';
+import '../styles/propose_loan.css';
+import '../styles/index.css';
 const ProposeLoan = () => {
   const { Moralis, user } = useMoralis();
   /* 
@@ -11,11 +11,11 @@ const ProposeLoan = () => {
   These fields will also be used to create a LoanProposal in the Moralis DB.
   */
   const [loan, setLoan] = useState({
-    amount: "",
-    interestRate: "",
-    interestAmount: "",
-    loanDuration: "",
-    borrower: "",
+    amount: '',
+    interestRate: '',
+    interestAmount: '',
+    loanDuration: '',
+    borrower: '',
   });
   // The loan's state changes as the user feeds information into input box
   const handleProposeLoan = (e) => {
@@ -24,7 +24,7 @@ const ProposeLoan = () => {
     setLoan({
       ...loan,
       [name]: value,
-      borrower: user.get("ethAddress"),
+      borrower: user.get('ethAddress'),
     });
   };
   // Make loan proposal on chain with the loan's state value fields.
@@ -43,8 +43,8 @@ const ProposeLoan = () => {
     const proposeLoan = {
       abi,
       contractAddress: loansAddress,
-      chain: "1337",
-      functionName: "proposeLoan",
+      chain: '1337',
+      functionName: 'proposeLoan',
       params: {
         _amount: ethToWei,
         _interesetRatePercent: interestRatePercentage,
@@ -62,68 +62,68 @@ const ProposeLoan = () => {
     const createLoan = {
       abi,
       contractAddress: loansAddress,
-      chain: "1337",
-      functionName: "viewLoanProposals",
+      chain: '1337',
+      functionName: 'viewLoanProposals',
       params: {
         _borrower: loan.borrower,
       },
     };
     // Creates loan proposal in Moralis DB out of the queried loan proposal information.
     await Moralis.executeFunction(createLoan).then((tx) => {
-      const LoanProposal = Moralis.Object.extend("LoanProposals");
+      const LoanProposal = Moralis.Object.extend('LoanProposals');
       const newLoan = new LoanProposal();
       // Reads proposed amount from the blockchain and converts the number from wei
       // and converts the number from integer to string for Database to accept.
       const amountNumToString = Moralis.Units.FromWei(tx[0]).toString();
-      newLoan.set("Amount", amountNumToString);
-      newLoan.set("InterestRate", tx[1]);
+      newLoan.set('Amount', amountNumToString);
+      newLoan.set('InterestRate', tx[1]);
       // Reads proposed interest rate from the blockchain and converts the number from wei
       // and converts the number from integer to string for Database to accept.
       const iRateAmountToString = Moralis.Units.FromWei(tx[2]).toString();
-      newLoan.set("InterestRateAmount", iRateAmountToString);
+      newLoan.set('InterestRateAmount', iRateAmountToString);
       // Converts duration from seconds to days
       const durationFromSecondsToDays = tx[3] / 86400;
       // Converts duration to string in order to set it in the Moralis Database
-      newLoan.set("LoanDuration", durationFromSecondsToDays.toString());
-      newLoan.set("Borrower", loan.borrower);
+      newLoan.set('LoanDuration', durationFromSecondsToDays.toString());
+      newLoan.set('Borrower', loan.borrower);
       newLoan.save();
     });
   };
 
   return (
     <>
-      <article className="form">
-        <div className="form-control">
+      <article className='form'>
+        <div className='form-control'>
           <label>ETH to borrow</label>
           <input
-            type="text"
-            name="amount"
+            type='text'
+            name='amount'
             value={loan.amount}
             onChange={handleProposeLoan}
           />
         </div>
-        <div className="form-control">
+        <div className='form-control'>
           <label>Interest Rate Percent</label>
           <input
-            type="text"
-            name="interestRate"
+            type='text'
+            name='interestRate'
             value={loan.interestRate}
             onChange={handleProposeLoan}
           />
         </div>
-        <div className="form-control">
+        <div className='form-control'>
           <label>Loan Duration in days</label>
           <input
-            type="text"
-            name="loanDuration"
+            type='text'
+            name='loanDuration'
             value={loan.loanDuration}
             onChange={handleProposeLoan}
           />
         </div>
-        <div className="form-control">
+        <div className='form-control'>
           <button
-            className="btn"
-            style={{ width: "150px", borderRadius: "25px" }}
+            className='btn'
+            style={{ width: '150px', borderRadius: '25px' }}
             /* 
             Calls the proposeLoan function within the smart contract. The parameters are determined 
             by the user inputs. These inputs are stored in the loan state hook.

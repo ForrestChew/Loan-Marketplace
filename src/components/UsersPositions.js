@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from "react";
-import { useMoralis } from "react-moralis";
-import Web3 from "web3";
-import abi from "../ContractInfo/abi";
-import loansAddress from "../ContractInfo/address";
-import DisplayStrips from "./strips/DisplayStrips";
-import "../styles/strips.css";
-import "../styles/users-positions.css";
+import { useState, useEffect, useRef } from 'react';
+import { useMoralis } from 'react-moralis';
+import Web3 from 'web3';
+import abi from '../ContractInfo/abi';
+import loansAddress from '../ContractInfo/address';
+import DisplayStrips from './strips/DisplayStrips';
+import '../styles/strips.css';
+import '../styles/users-positions.css';
 /*
 Component will display authenticated user positions. These 
 positions would be, loan proposals, filled loans, or fractional loans.
@@ -30,15 +30,15 @@ const UsersPositions = () => {
   loan input box.
   */
   const [listLoan, setListLoan] = useState({
-    percentOfLoan: "",
-    sellingPrice: "",
+    percentOfLoan: '',
+    sellingPrice: '',
   });
   /*
   Retrieves the percentage of loan that the lender is selling off as well as 
   the price they are selling it for. These values are then added to the display strip.
   */
-  const [queriedPercentofLoan, setQueriedPercentOfLoan] = useState("");
-  const [queriedSellingPrice, setQueriedSellingPrice] = useState("");
+  const [queriedPercentofLoan, setQueriedPercentOfLoan] = useState('');
+  const [queriedSellingPrice, setQueriedSellingPrice] = useState('');
   // The loan's state changes as the user feeds information into input box
   const handleListLoan = (e) => {
     const name = e.target.name;
@@ -69,31 +69,31 @@ const UsersPositions = () => {
         try {
           await Moralis.enableWeb3();
           // Querys user's loan proposal
-          const queryProposals = new Moralis.Query("LoanProposals");
+          const queryProposals = new Moralis.Query('LoanProposals');
           const queryProposalsMatch = queryProposals.equalTo(
-            "Borrower",
-            user.get("ethAddress")
+            'Borrower',
+            user.get('ethAddress')
           );
           const proposedLoan = await queryProposalsMatch.find();
           // Querys loan that user has lent to
-          const queryActiveLentLoans = new Moralis.Query("ActivatedLoans");
+          const queryActiveLentLoans = new Moralis.Query('ActivatedLoans');
           const queryActiveLentLoansMatch = queryActiveLentLoans.equalTo(
-            "Lender",
-            user.get("ethAddress")
+            'Lender',
+            user.get('ethAddress')
           );
           const lentLoans = await queryActiveLentLoansMatch.find();
           // Querys users's loan that has been filled by a third party.
-          const queryActiveFilledLoan = new Moralis.Query("ActivatedLoans");
+          const queryActiveFilledLoan = new Moralis.Query('ActivatedLoans');
           const queryActiveFilledLoansMatch = queryActiveFilledLoan.equalTo(
-            "Borrower",
-            user.get("ethAddress")
+            'Borrower',
+            user.get('ethAddress')
           );
           const filledLoan = await queryActiveFilledLoansMatch.find();
           // Querys loan if the user is a fractional owner to that loan.
-          const boughtLoans = new Moralis.Query("ActivatedLoans");
+          const boughtLoans = new Moralis.Query('ActivatedLoans');
           const boughtLoansByAddr = boughtLoans.equalTo(
-            "FractionalBuyersAddr",
-            user.get("ethAddress")
+            'FractionalBuyersAddr',
+            user.get('ethAddress')
           );
           const boughtLoan = await boughtLoansByAddr.find();
           // Sets state variables with fetched info
@@ -114,8 +114,8 @@ const UsersPositions = () => {
     const getLoanInfo = {
       abi,
       contractAddress: loansAddress,
-      chain: "1337",
-      functionName: "viewActiveLoans",
+      chain: '1337',
+      functionName: 'viewActiveLoans',
       params: {
         _lender: userFilledLoans[0].attributes.Lender,
         _borrower: userFilledLoans[0].attributes.Borrower,
@@ -123,13 +123,13 @@ const UsersPositions = () => {
     };
     // Returns info about specified loan, and calls the payback method within smart contract with said info
     await Moralis.executeFunction(getLoanInfo).then((loanInfo) => {
-      let totalAmountBn = "";
+      let totalAmountBn = '';
       /* 
       Determines whether this is a fractional loan by checking the 
       fractional loan's buyer address. If it's the zero address, the else block runs,
       if it's not the zero address, the if block runs.
       */
-      if (loanInfo[8] !== "0x0000000000000000000000000000000000000000") {
+      if (loanInfo[8] !== '0x0000000000000000000000000000000000000000') {
         // The total debt is calculated with big numbers.
         totalAmountBn = Web3.utils
           .toBN(loanInfo[0])
@@ -145,9 +145,9 @@ const UsersPositions = () => {
       const payoffLoan = {
         abi,
         contractAddress: loansAddress,
-        chain: "1337",
+        chain: '1337',
         msgValue: Web3.utils.toBN(totalAmountBn),
-        functionName: "payback",
+        functionName: 'payback',
         params: {
           _lender: userFilledLoans[0].attributes.Lender,
         },
@@ -159,7 +159,7 @@ const UsersPositions = () => {
   };
   // Deletes the activated loan from the Moralis database.
   const deleteActiveLoan = async () => {
-    const query = new Moralis.Query("ActivatedLoans");
+    const query = new Moralis.Query('ActivatedLoans');
     const activeLoanQuery = await query.get(userFilledLoans[0].id);
     await activeLoanQuery.destroy();
   };
@@ -169,8 +169,8 @@ const UsersPositions = () => {
     const listLoan = {
       abi,
       contractAddress: loansAddress,
-      chain: "1337",
-      functionName: "listLoan",
+      chain: '1337',
+      functionName: 'listLoan',
       params: {
         _borrower: userLentLoans[0].attributes.Borrower,
         _salePrice: Moralis.Units.ETH(sellingPrice),
@@ -183,17 +183,17 @@ const UsersPositions = () => {
   };
   // Updatas active loan fields with the fractional loan listing info
   const updateActiveLoan = async () => {
-    const query = new Moralis.Query("ActivatedLoans");
+    const query = new Moralis.Query('ActivatedLoans');
     const activeLoanQuery = await query.get(userLentLoans[0].id);
-    activeLoanQuery.set("PercentOfLoanSold", listLoan.percentOfLoan);
-    activeLoanQuery.set("SellingPrice", listLoan.sellingPrice);
+    activeLoanQuery.set('PercentOfLoanSold', listLoan.percentOfLoan);
+    activeLoanQuery.set('SellingPrice', listLoan.sellingPrice);
     await activeLoanQuery.save().then(() => {
       updateDisplayStrip();
     });
   };
   // Updates the loan state variables in order to update the loan strips.
   const updateDisplayStrip = async () => {
-    const query = new Moralis.Query("ActivatedLoans");
+    const query = new Moralis.Query('ActivatedLoans');
     const activeLoanQuery = await query.get(userLentLoans[0].id);
     /*
     The useState hook is necessary because otherwise, the handleListLoan
@@ -211,8 +211,8 @@ const UsersPositions = () => {
     const deleteProposalOptions = {
       abi,
       contractAddress: loansAddress,
-      chain: "1337",
-      functionName: "deleteLoanProposal",
+      chain: '1337',
+      functionName: 'deleteLoanProposal',
     };
     await Moralis.executeFunction(deleteProposalOptions).then(() => {
       // Calls function to delete loan proposal from database
@@ -221,7 +221,7 @@ const UsersPositions = () => {
   };
   // Deletes loan proposal from database
   const deleteLoanProposalFromDatabase = async () => {
-    const query = new Moralis.Query("LoanProposals");
+    const query = new Moralis.Query('LoanProposals');
     // References the user's loan proposal
     const proposalToDelete = await query.get(userProposals[0].id);
     await proposalToDelete.destroy();
@@ -236,10 +236,10 @@ const UsersPositions = () => {
           proposal.attributes;
         return (
           <div key={id}>
-            <h1 className="general">Proposed</h1>
+            <h1 className='general'>Proposed</h1>
             <button
-              className="btn"
-              style={{ marginLeft: "14px" }}
+              className='btn'
+              style={{ marginLeft: '14px' }}
               onClick={() => deleteLoanProposalFromChain()}
             >
               Delete Proposal
@@ -260,10 +260,10 @@ const UsersPositions = () => {
           filledLoan.attributes;
         return (
           <div key={id}>
-            <h1 className="general">Debt</h1>
+            <h1 className='general'>Debt</h1>
             <button
-              className="btn"
-              style={{ marginLeft: "14px" }}
+              className='btn'
+              style={{ marginLeft: '14px' }}
               onClick={() => paybackLoan()}
             >
               Payback
@@ -284,27 +284,27 @@ const UsersPositions = () => {
           lentLoan.attributes;
         return (
           <div key={id}>
-            <h1 className="general">Lent</h1>
+            <h1 className='general'>Lent</h1>
             <div>
-              <label className="label">Fractional Percent:</label>
+              <label className='label'>Fractional Percent:</label>
               <input
-                className="inputs"
-                name="percentOfLoan"
+                className='inputs'
+                name='percentOfLoan'
                 value={listLoan.percentOfLoan}
                 onChange={handleListLoan}
               />
               <br></br>
-              <label className="label">Selling Price:</label>
+              <label className='label'>Selling Price:</label>
               <input
-                className="inputs"
-                name="sellingPrice"
+                className='inputs'
+                name='sellingPrice'
                 value={listLoan.sellingPrice}
                 onChange={handleListLoan}
               />
               <br></br>
               <button
-                className="btn"
-                style={{ marginLeft: "14px" }}
+                className='btn'
+                style={{ marginLeft: '14px' }}
                 onClick={() => {
                   sellLoan(listLoan.percentOfLoan, listLoan.sellingPrice);
                 }}
@@ -330,7 +330,7 @@ const UsersPositions = () => {
           boughtLoan.attributes;
         return (
           <div key={id}>
-            <h1 className="general">Loan Fractions Owned</h1>
+            <h1 className='general'>Loan Fractions Owned</h1>
             <DisplayStrips
               percentSold={`Percent of original loan owned: ${PercentOfLoanSold}%`}
               amount={`ETH to recieve: ${FractionalAmount}`}

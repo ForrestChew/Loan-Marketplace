@@ -30,9 +30,10 @@ const Strip = ({
             _borrower: borrowerAddr,
           },
         };
-        await Moralis.executeFunction(fillLoan);
-        // Invokes function to create the Activated Loan in database
-        await createLend();
+        await Moralis.executeFunction(fillLoan).then(() => {
+          // Invokes function to create the Activated Loan in database
+          createLend();
+        });
       } else {
         alert('Please login');
       }
@@ -64,8 +65,9 @@ const Strip = ({
     newAL.set('InterestRateAmount', parseFloat(interestAmount));
     newAL.set('Lender', user.get('ethAddress'));
     console.log(interestAmount);
-    await newAL.save();
-    deleteLoanProposal();
+    await newAL.save().then(() => {
+      deleteLoanProposal();
+    });
   };
   //Loan proposal deleted when user fills that proposal.
   //The loan proposal will become an "ActivatedLoan" in the Moralis DB
@@ -76,12 +78,12 @@ const Strip = ({
   };
 
   return (
-    <div className="strip-container" style={{ border: '6px solid gray' }}>
-      <li className="strip">{amount}</li>
-      <li className="strip">{interestRate}</li>
-      <li className="strip">{duration}</li>
-      <li className="strip">{borrower}</li>
-      <button className="btn" onClick={() => lend()}>
+    <div className='strip-container' style={{ border: '6px solid gray' }}>
+      <li className='strip'>{amount}</li>
+      <li className='strip'>{interestRate}</li>
+      <li className='strip'>{duration}</li>
+      <li className='strip'>{borrower}</li>
+      <button className='btn' onClick={() => lend()}>
         LEND
       </button>
     </div>
