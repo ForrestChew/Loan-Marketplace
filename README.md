@@ -63,7 +63,9 @@ npm start
  Users can login with MetaMask
  ### 2) Propose Loan <br>
  Once logged in, users can make a loan proposal, but can have only one at most.
- ![](readmePhotos/
+ ![](readmePhotos/submit_loan_proposal.PNG "Submitting loan proposal") <br>
+ When a new loan proposal is created, the smart contract logs the user's address as a key to the value of their loan proposal. This is achieved through a solidity mapping. Within the Moralis database, a new class is also created called, "LoanProposals". The database is what the front end will query through to display the loans proposals.
+ ![](readmePhotos/loan_proposal_moralis.PNG "Loan proposal in Moralis DB")
  ### 3) Browse Loans <br>  
  Users can view and fill loan proposals, but can only lend to one loan at a time. 
  ### 4) Browse Fractional Loans <br> 
