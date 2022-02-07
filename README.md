@@ -35,7 +35,7 @@ In the root of your project directory, create a .env file and add your Moralis S
 ![](readmePhotos/moralis_env_info.PNG)
 <br>
 In the projects debt_marketplace directory, add another .env file, but this time add your private key and your Web3 provider URL. Moralis has their own node providers, but you are free to use any provider you wish as long as it's for the Rinkey testnet.
-![](readmePhotos/private_key_and_provider_env.PNG)
+![](readmePhotos/debt_marketplace_env_info.PNG)
 <br>
 ### 5) Install node dependencies <br>
 While in the project's root directory, run the command:
