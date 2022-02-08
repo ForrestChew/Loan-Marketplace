@@ -33,10 +33,10 @@ git clone https://github.com/McManOfTheLand/Loan-Marketplace.git
 ```
 ### 4) Create .env files <br>
 In the root of your project directory, create a .env file and add your Moralis Server URL and Application ID. 
-![](readmePhotos/moralis_env_info.PNG)
+![](readmePhotos/moralis_env_info.PNG "Moralis server URL and application Id added to .env file")
 <br>
 In the projects debt_marketplace directory, add another .env file, and add your provider url, your private key, and you Etherscan API token.
-![](readmePhotos/debt_marketplace_env_info.PNG)
+![](readmePhotos/debt_marketplace_env_info.PNG "Provider, private key, and Etherscan API key added to .env file")
 <br>
 ### 5) Install node dependencies <br>
 While in the project's root directory, run the command:
