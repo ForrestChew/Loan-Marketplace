@@ -78,9 +78,9 @@ Transaction on Etherscan: <br>
   ![](readmePhotos/active_loan.PNG "Activated loan in Moralis DB")
  ### 4) Browse Fractional Loans <br> 
  Users can view and buy fractions of loans. These fractions are sold by the lender to the original loan. 
- ![](readmePhotos/fractional_loans.PNG "Active loan that lender is selling a fraction of")
+ ![](readmePhotos/fractional_loan.PNG "Active loan that lender is selling a fraction of")
  ### 5) Users Positions 
  If applicable, users can view or delete their loan proposals, view their fractional loans, and payback their active loans. They are also able to sell fraction's of loans where they are the lender.
- ![](readmePhotos/user_positions.PNG "User has a loan proposal and a loan they are the lender to.")
+ ![](readmePhotos/user_positions.PNG "User has a loan proposal, and a loan they are the lender to.")
  
 
