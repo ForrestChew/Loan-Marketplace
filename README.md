@@ -94,4 +94,6 @@ To test with coverage, run the command:
 brownie test -C
 ```
 ![](readmePhotos/test_loans_contract.PNG "Contract coverage test report")
-All of the tests can be found in the `debt_marketplace/tests` directory.
+All of the tests can be found in the `debt_marketplace/tests` directory. <br>
+# Basic project flow
+![](readmePhotos/Loan Marketplace.drawio.png)
