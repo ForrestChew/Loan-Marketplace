@@ -93,4 +93,4 @@ To see total test coverage, run the command:
 ```
 brownie test -C
 ```
-![](readmePhotos/test_contract.PNG "Contract coverage test")
+![](readmePhotos/test_loans_contract.PNG "Contract coverage test")
