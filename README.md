@@ -32,10 +32,10 @@ Instructions can be found: https://docs.moralis.io/moralis-server/getting-starte
 git clone https://github.com/McManOfTheLand/Loan-Marketplace.git
 ```
 ### 4) Create .env files <br>
-In the root of your project directory, create a .env file and add your Moralis Server URL and Application ID. 
+In the root of your project directory, create a `.env` file and add your Moralis Server URL and Application ID. 
 ![](readmePhotos/moralis_env_info.PNG "Moralis server URL and application Id added to .env file")
 <br>
-In the projects debt_marketplace directory, add another .env file, and add your provider url, your private key, and you Etherscan API token.
+In the projects `debt_marketplace` directory, add another `.env` file, and add your provider url, your private key, and you Etherscan API token.
 ![](readmePhotos/debt_marketplace_env_info.PNG "Provider, private key, and Etherscan API key added to .env file")
 <br>
 ### 5) Install node dependencies <br>
@@ -52,7 +52,7 @@ A successful deployment should look like: <br>
 ![](readmePhotos/deployment_success.PNG "Console output on successful deployment") <br>
 ![](readmePhotos/deployment_success_etherscan.PNG "Contract deployed and verified on Etherscan") <br>
  ### 7)  Connect smart contract to front end <br>
- In order to connect the front end to the smart contract, the contract's abi, and it's address are needed. Assuming that the contracts source code has not been altered since cloning, the contracts abi can be found - **Loan-Marketplace/src/ContractInfo/abi.js**. In the same directory, there is a file called **address.js**. Add your deployed contract instance address to the specified area. <br>
+ In order to connect the front end to the smart contract, the contract's abi, and it's address are needed. Assuming that the contracts source code has not been altered since cloning, the contracts abi can be found - `Loan-Marketplace/src/ContractInfo/abi.js`. In the same directory, there is a file called `address.js`. Add your deployed contract instance address to the specified area. <br>
  ![](readmePhotos/add_address.PNG "Add deployed contract instance address") <br>
 ### 8) Launch dapp <br>
 In project's root directory, run the command:<br>
@@ -89,8 +89,8 @@ To fire the tests, while in the `debt_marketplace` directory, run the command:
 ```
 brownie test
 ```
-To see total test coverage, run the command:
+To test with coverage, run the command:
 ```
 brownie test -C
 ```
-![](readmePhotos/test_loans_contract.PNG "Contract coverage test")
+![](readmePhotos/test_loans_contract.PNG "Contract coverage test report")
