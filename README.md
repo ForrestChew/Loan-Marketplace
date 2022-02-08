@@ -72,7 +72,7 @@ Transaction on Etherscan: <br>
  Transaction logs: <br>
  ![](readmePhotos/loan_proposal_tx_logs.PNG "Loan proposal transaction logs")
  ### 3) Browse Loans <br>  
- Users can view and fill loan proposals, but can only lend to one loan at a time. The image below shows what the page looks like when there are three loan proposals. For this demonstration, we will be lending to the middle loan proposal.
+ Users can view and fill loan proposals, but can only lend to one loan at a time. The image below shows what the page looks like when there are three loan proposals.
  ![](readmePhotos/browse_and_lend.PNG "Lending to middle loan proposal")
  Once the transaction is confirmed, the smart contract will update the loan with the new information. In addition, the Moralis DB will delete that loan proposal, and add it to a class called, "ActivatedLoans".
   ![](readmePhotos/active_loan.PNG "Activated loan in Moralis DB")
