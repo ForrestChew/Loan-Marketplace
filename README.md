@@ -83,4 +83,14 @@ Transaction on Etherscan: <br>
  If applicable, users can view or delete their loan proposals, view their fractional loans, and payback their active loans. They are also able to sell fraction's of loans where they are the lender.
  ![](readmePhotos/user_positions.PNG "User has a loan proposal, and a loan they are the lender to.")
  
-
+# Testing <br>
+Provided in the repo, there are unit tests and integration tests. According to Brownie, <br>
+To fire the tests, while in the `debt_marketplace` directory, run the command: 
+```
+brownie test
+```
+To see total test coverage, run the command:
+```
+brownie test -C
+```
+![](readmePhotos/test_contract.PNG "Contract coverage test")
