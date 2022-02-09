@@ -83,8 +83,8 @@ Transaction on Etherscan: <br>
  ![](readmePhotos/user_positions.PNG "User has a loan proposal, and a loan they are the lender to.")
  
 # Testing <br>
-Provided in the repo, there are unit tests and integration tests. According to Brownie, <br>
-To fire the tests, while in the `debt_marketplace` directory, run the command: 
+Provided in the repo, there are unit tests and integration tests. <br>
+To run the tests, while in the `debt_marketplace` directory, run the command: 
 ```
 brownie test
 ```
