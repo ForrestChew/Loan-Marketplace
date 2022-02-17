@@ -37,7 +37,7 @@ In the root of your project directory, create a `.env` file and add your Moralis
 In the projects `debt_marketplace` directory, add another `.env` file, and add your provider url, your private key, and you Etherscan API token.
 ![](readmePhotos/debt_marketplace_env_info.PNG "Provider, private key, and Etherscan API key added to .env file")
 <br>
-### 5) Install node dependencies <br>
+### 5) Install dependencies <br>
 While in the project's root directory, run the command:
 ```
 npm install
