@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.10;
 
 contract Loans {
     // Represents a loan. The struct fields will update as the loan changes
@@ -42,7 +42,7 @@ contract Loans {
     ) external blackListedCheck {
         require(
             !proposedLoans[msg.sender].isProposed,
-            "Proposal already exists"
+            "proposeLoan: Proposal already exists"
         );
         // Calculates the interest rate amount in ETH based on the interest percentage
         uint256 interestRateAmount = (_amount *
@@ -72,7 +72,7 @@ contract Loans {
         // Confirms that the current loan proposal exists
         require(
             proposedLoans[_borrower].isProposed,
-            "Account has no active loan proposals"
+            "lend: Account has no active loan proposals"
         );
         /* 
         1) Maps the lender to the borrower.
@@ -110,7 +110,7 @@ contract Loans {
     function payback(address payable _lender) public payable {
         require(
             activeLoans[_lender][msg.sender].isActive,
-            "Nonexistant loan cannot be paid back"
+            "payback: Nonexistant loan cannot be paid back"
         );
         /* 
         Determines whether the loan is fractional or not
@@ -123,7 +123,7 @@ contract Loans {
                 msg.value ==
                     activeLoans[_lender][msg.sender].amount +
                         activeLoans[_lender][msg.sender].loanFractionAmount,
-                "Amount paid back must be exact"
+                "payback: Amount paid back must be exact"
             );
             // Transfers amount owed to lender from borrower
             (bool success, ) = _lender.call{
@@ -175,12 +175,12 @@ contract Loans {
     ) external blackListedCheck {
         require(
             activeLoans[msg.sender][_borrower].isActive,
-            "You do not have the rights to sell this loan"
+            "listLoan: You do not have the rights to sell this loan"
         );
         // Checks whether the loan has already been listed or not
         require(
             activeLoans[msg.sender][_borrower].fractionalOwner == address(0),
-            "Loan can only be sold once"
+            "listLoan: Loan can only be sold once"
         );
         // Sets the loan's for sale price
         activeLoans[msg.sender][_borrower].forSalePrice = _salePrice;
@@ -240,7 +240,7 @@ contract Loans {
     function deleteLoanProposal() public {
         require(
             proposedLoans[msg.sender].isProposed,
-            "Loan proposal does not exist"
+            "deleteLoanProposal: Loan proposal does not exist"
         );
         delete proposedLoans[msg.sender];
     }
@@ -255,7 +255,7 @@ contract Loans {
             block.timestamp >=
                 activeLoans[msg.sender][_borrower].timestampStart +
                     activeLoans[msg.sender][_borrower].duration,
-            "Loan has not expired yet"
+            "blacklistAddress: Loan has not expired yet"
         );
         isBlacklisted[_borrower] = true;
         emit Blacklisted(_borrower);
@@ -283,7 +283,7 @@ contract Loans {
     modifier blackListedCheck() {
         require(
             isBlacklisted[msg.sender] == false,
-            "This address is blacklisted"
+            "blackListedCheck: This address is blacklisted"
         );
         _;
     }
@@ -292,7 +292,7 @@ contract Loans {
     modifier correctETHForSalePrice(address _lender, address _borrower) {
         require(
             msg.value == activeLoans[_lender][_borrower].forSalePrice,
-            "Incorrect ether amount"
+            "correctETHForSalePrice: Incorrect ether amount"
         );
         _;
     }
@@ -301,7 +301,7 @@ contract Loans {
     modifier isForSale(address _lender, address _borrower) {
         require(
             activeLoans[_lender][_borrower].isForSale,
-            "Active loan is not for sale"
+            "isForSale: Active loan is not for sale"
         );
         _;
     }
