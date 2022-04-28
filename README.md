@@ -15,10 +15,8 @@ Borrowers can propose loans and lenders can fill them. If a proposal is filled, 
 4. Etherscan API Key - https://etherscan.io/myapikey
 
 # Setup steps <br>
-
-_Note:
-This setup is done using the Rinkeby Testnet, but any EVM compatible blockchain will work._ <br>
-
+*Note:
+This setup is done using the Rinkeby Testnet, but any EVM compatible blockchain will work*
 <br>
 
 ### 1) Create Moralis server on the Rinkeby Test network: <br>
