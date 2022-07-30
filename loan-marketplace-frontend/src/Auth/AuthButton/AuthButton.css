@@ -15,3 +15,18 @@ button:hover {
   border-radius: 6px 6px 6px 6px;
   border: 1px solid white;
 }
+
+p {
+  border-bottom: 1px solid black;
+  color: black;
+  font-size: large;
+  padding: 0.5rem 1rem;
+  letter-spacing: 1.15px;
+  user-select: none;
+}
+
+@media screen and (max-width: 850px) {
+  p {
+    font-size: 22px;
+  }
+}
