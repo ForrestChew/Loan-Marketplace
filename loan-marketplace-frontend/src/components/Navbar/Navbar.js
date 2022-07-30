@@ -28,7 +28,7 @@ const Navbar = () => {
           </div>
         </a>
         <ul className={renderClasses()}>
-          <li>
+          <li onClick={handleNavLinksToggle}>
             <NavLink
               className={(navData) =>
                 navData.isActive ? "link-active" : "link"
@@ -38,7 +38,7 @@ const Navbar = () => {
               Home
             </NavLink>
           </li>
-          <li>
+          <li onClick={handleNavLinksToggle}>
             <NavLink
               className={(navData) =>
                 navData.isActive ? "link-active" : "link"
@@ -48,7 +48,7 @@ const Navbar = () => {
               Propose Loan
             </NavLink>
           </li>
-          <li>
+          <li onClick={handleNavLinksToggle}>
             <NavLink
               className={(navData) =>
                 navData.isActive ? "link-active" : "link"
@@ -58,7 +58,7 @@ const Navbar = () => {
               Browse Loans
             </NavLink>
           </li>
-          <li>
+          <li onClick={handleNavLinksToggle}>
             <NavLink
               className={(navData) =>
                 navData.isActive ? "link-active" : "link"
