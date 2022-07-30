@@ -47,27 +47,30 @@ a {
 }
 
 @media screen and (max-width: 850px) {
-  body {
-    overflow-x: hidden;
+  .logo-area {
+    margin-left: 2rem;
   }
+
   .hamburger-toggle {
     display: block;
   }
+
   .navlinks {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-evenly;
     position: absolute;
     right: 0px;
-    top: 5vh;
-    height: 92vh;
+    top: 5.4rem;
+    height: 100%;
     width: 100%;
     background-color: gray;
     font-size: 28px;
-    transform: translateX(100%);
+    display: none;
+    overflow: hidden;
   }
 
   .active {
-    transform: translateX(0%);
+    display: flex;
   }
 }
