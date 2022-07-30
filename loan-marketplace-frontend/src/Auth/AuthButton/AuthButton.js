@@ -1,11 +1,7 @@
 import "./AuthButton.css";
 
 const AuthButton = () => {
-  return (
-    <div className="auth-btn-container">
-      <button>Connect</button>
-    </div>
-  );
+  return <button>Connect</button>;
 };
 
 export default AuthButton;
