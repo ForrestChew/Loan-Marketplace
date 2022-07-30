@@ -1,0 +1,40 @@
+.title {
+  width: fit-content;
+  margin: 10rem;
+  margin-bottom: 12rem;
+  font-size: 32px;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-items {
+  display: flex;
+  justify-content: space-around;
+  width: 60%;
+  font-size: larger;
+}
+
+.stat-contents {
+  text-align: center;
+}
+
+li {
+  padding: 0.5rem;
+}
+
+@media screen and (max-width: 850px) {
+  .title {
+    margin: 0;
+    text-align: center;
+  }
+
+  .stat-items {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+  }
+}
