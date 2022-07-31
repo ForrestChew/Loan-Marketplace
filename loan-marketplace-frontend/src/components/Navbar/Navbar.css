@@ -57,18 +57,15 @@ a {
   }
 
   .navlinks {
-    display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     position: absolute;
-    right: 0px;
     top: 5.4rem;
     height: 100%;
     width: 100%;
-    background-color: gray;
     font-size: 28px;
     display: none;
-    overflow: hidden;
+    background-color: gray;
   }
 
   .active {

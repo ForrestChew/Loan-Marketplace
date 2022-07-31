@@ -4,7 +4,6 @@
   font-size: 32px;
   color: #edf5e1;
   background: url("../../assets/homey.svg") no-repeat;
-  /* border: 1px solid black; */
 }
 
 .home-logo {
@@ -16,7 +15,6 @@
   flex-direction: column;
   align-items: center;
   color: #edf5e1;
-  margin-bottom: 8rem;
 }
 
 .stat-items {
