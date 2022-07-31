@@ -28,18 +28,6 @@ contract LoanMarketplace is LoanFactory {
         listingFee = _listingFee;
     }
 
-    /**
-     * @notice - Calculates the amount a borrower owes on their loan.
-     * @param _loanId - The ID of the loan to calculate debt.
-     * @return - The total amount a borrower owes. Base loan amount + interest rate.
-     */
-    function getTotalDebt(uint256 _loanId) public view returns (uint256) {
-        uint256 loanAmount = loanIdToLoan[_loanId].loanAmount;
-        uint256 interestRate = loanIdToLoan[_loanId].interestRate;
-        uint256 totalInterest = (loanAmount * (interestRate * 100)) / 10000;
-        uint256 totalDebt = loanAmount + totalInterest;
-        return totalDebt;
-    }
 
     /**
      * @notice - Enables user to propose a loan.
@@ -155,6 +143,24 @@ contract LoanMarketplace is LoanFactory {
         deleteLoan(_loanId, totalDebt);
     }
 
+    /**
+     * @notice - Calculates the amount a borrower owes on their loan.
+     * @param _loanId - The ID of the loan to calculate debt.
+     * @return - The total amount a borrower owes. Base loan amount + interest rate.
+     */
+    function getTotalDebt(uint256 _loanId) public view returns (uint256) {
+        uint256 loanAmount = loanIdToLoan[_loanId].loanAmount;
+        uint256 interestRate = loanIdToLoan[_loanId].interestRate;
+        uint256 totalInterest = (loanAmount * (interestRate * 100)) / 10000;
+        uint256 totalDebt = loanAmount + totalInterest;
+        return totalDebt;
+    }
+
+    /**
+     * @notice - Coordinates sending funds.
+     * @param  _to - Account to receiving funds.
+     * @param _amount - Amount of funds to send.
+     */
     function _sendFunds(address _to, uint256 _amount) private  {
         (bool sendFundsTx,) = payable(_to).call{value: _amount}("");
         require(sendFundsTx, "_sendFunds: Tx Failed");
