@@ -1,20 +1,25 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import AuthButton from "../../Auth/AuthButton";
 import logo from "../../assets/homey.svg";
+import { HamburgerContext } from "../../contexts/HamburgerContextProvider";
 import hamburger from "../../assets/hamburger-menu-icon.svg";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const [navLinkOpen, setNavLinkOpen] = useState(false);
+  const [hamMenuOpen, setHamMenuOpen] = useContext(HamburgerContext);
 
-  const handleNavLinksToggle = () => {
-    setNavLinkOpen(!navLinkOpen);
+  const handleHamMenuToggle = () => {
+    setHamMenuOpen(!hamMenuOpen);
+  };
+
+  const closeHamMenu = () => {
+    if (hamMenuOpen) setHamMenuOpen(false);
   };
 
   const renderClasses = () => {
     let classes = "navlinks";
-    if (navLinkOpen) classes += " active";
+    if (hamMenuOpen) classes += " active";
     return classes;
   };
 
@@ -28,7 +33,7 @@ const Navbar = () => {
           </div>
         </a>
         <ul className={renderClasses()}>
-          <li onClick={handleNavLinksToggle}>
+          <li onClick={closeHamMenu}>
             <NavLink
               className={(navData) =>
                 navData.isActive ? "link-active" : "link"
@@ -38,7 +43,7 @@ const Navbar = () => {
               Home
             </NavLink>
           </li>
-          <li onClick={handleNavLinksToggle}>
+          <li onClick={closeHamMenu}>
             <NavLink
               className={(navData) =>
                 navData.isActive ? "link-active" : "link"
@@ -48,7 +53,7 @@ const Navbar = () => {
               Propose Loan
             </NavLink>
           </li>
-          <li onClick={handleNavLinksToggle}>
+          <li onClick={closeHamMenu}>
             <NavLink
               className={(navData) =>
                 navData.isActive ? "link-active" : "link"
@@ -58,7 +63,7 @@ const Navbar = () => {
               Browse Loans
             </NavLink>
           </li>
-          <li onClick={handleNavLinksToggle}>
+          <li onClick={closeHamMenu}>
             <NavLink
               className={(navData) =>
                 navData.isActive ? "link-active" : "link"
@@ -70,7 +75,7 @@ const Navbar = () => {
           </li>
           <AuthButton />
         </ul>
-        <div className="hamburger-toggle" onClick={handleNavLinksToggle}>
+        <div className="hamburger-toggle" onClick={handleHamMenuToggle}>
           <img src={hamburger} alt="Menu" width="25%" />
         </div>
       </nav>
