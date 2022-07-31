@@ -1,0 +1,31 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.propose-loan-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 6rem;
+  border: 1px solid black;
+  padding: 4.5rem 8rem;
+}
+
+label {
+  padding: 1rem;
+}
+
+input {
+  padding: 1rem 4rem;
+}
+
+@media screen and (max-width: 850px) {
+  .propose-loan-form {
+    margin-top: 0;
+    border: none;
+  }
+}

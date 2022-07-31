@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import AuthButton from "../../Auth/AuthButton/AuthButton";
+import AuthButton from "../../Auth/AuthButton";
 import logo from "../../assets/homey.svg";
 import hamburger from "../../assets/hamburger-menu-icon.svg";
 import "./Navbar.css";
