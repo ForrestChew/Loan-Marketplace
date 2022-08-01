@@ -5,14 +5,15 @@
 }
 
 .propose-loan-form {
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 6rem;
-  border: 1px solid black;
   padding: 4.5rem 8rem;
-  background-color: gray;
+  background-color: #00084e;
+  border: 1px solid crimson;
   transition: all ease-in-out 1s;
 }
 
@@ -31,6 +32,7 @@
   letter-spacing: 1.15px;
   cursor: pointer;
   transition: all 0.25s ease-out;
+  background: rgba(0, 0, 0, 0);
 }
 
 .propose-btn:hover {
