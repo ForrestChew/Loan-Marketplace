@@ -1,20 +1,22 @@
-.title {
-  margin: 10rem;
-  margin-bottom: 8rem;
-  font-size: 32px;
-  color: #edf5e1;
-  background: url("../../assets/homey.svg") no-repeat;
+.mill-svg {
+  position: absolute;
+  width: 40%;
+  margin-left: 64rem;
+  z-index: -1;
 }
 
-.home-logo {
-  margin-left: 6rem;
+.title {
+  margin: 8rem 4rem 0rem 10rem;
+  font-size: 32px;
+  margin-bottom: 12rem;
+  color: white;
 }
 
 .stats {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #edf5e1;
+  color: white;
 }
 
 .stat-items {
@@ -34,7 +36,7 @@ li {
 
 @media screen and (max-width: 850px) {
   .title {
-    margin: 0;
+    margin: 12rem 0 0;
     text-align: center;
   }
 
@@ -43,5 +45,9 @@ li {
     flex-direction: column;
     width: fit-content;
     padding: 1rem;
+  }
+
+  .mill-svg {
+    margin-left: 9rem;
   }
 }
