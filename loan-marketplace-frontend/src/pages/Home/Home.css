@@ -1,7 +1,7 @@
 .mill-svg {
   position: absolute;
-  width: 40%;
-  margin-left: 64rem;
+  width: 50rem;
+  margin-left: 50%;
   z-index: -1;
 }
 
@@ -36,7 +36,7 @@ li {
 
 @media screen and (max-width: 850px) {
   .title {
-    margin: 12rem 0 0;
+    margin: 0;
     text-align: center;
   }
 
@@ -48,6 +48,9 @@ li {
   }
 
   .mill-svg {
-    margin-left: 9rem;
+    position: relative;
+    display: block;
+    margin: auto;
+    width: 20rem;
   }
 }
