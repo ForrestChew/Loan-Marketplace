@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import AuthButton from "../../Auth/AuthButton";
 import logo from "../../assets/homey.svg";
