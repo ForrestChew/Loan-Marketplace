@@ -1,16 +1,16 @@
+import MillAndHouse from "../../assets/MillAndHouse.Svg";
 import "./Home.css";
 
 const Home = () => {
   return (
     <>
+      <img className="mill-svg" src={MillAndHouse} />
       <section className="title">
         <h1>
           Loan Marketplace <em>(not predetory)</em>
         </h1>
-        <h4>Borrow, Lend, and sell debt through this defi protocal.</h4>
-        <h4>
-          Your financial <b>future</b> awaits.
-        </h4>
+        <h4>Borrow, lend, and sell debt through this P2P lending protocal.</h4>
+        <h4>Your financial future awaits.</h4>
       </section>
       <section className="stats">
         <h1>Active</h1>
