@@ -1,4 +1,4 @@
-button {
+.auth-btn {
   background-color: rgb(0, 0, 0, 0.1);
   border: 1px solid black;
   color: black;
@@ -9,7 +9,7 @@ button {
   transition: all 0.25s ease-out;
 }
 
-button:hover {
+.auth-btn:hover {
   background-color: #05386b;
   color: white;
   border-radius: 6px 6px 6px 6px;

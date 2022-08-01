@@ -31,7 +31,9 @@ const AuthButton = () => {
   return (
     <>
       {!shortAccount ? (
-        <button onClick={connectAndSetAddress}>Connect</button>
+        <button className="auth-btn" onClick={connectAndSetAddress}>
+          Connect
+        </button>
       ) : (
         <div>
           <p>{shortAccount}</p>
