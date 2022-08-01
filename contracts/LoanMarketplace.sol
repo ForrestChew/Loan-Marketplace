@@ -28,7 +28,6 @@ contract LoanMarketplace is LoanFactory {
         listingFee = _listingFee;
     }
 
-
     /**
      * @notice - Enables user to propose a loan.
      * @param _loanAmount - The amount a user wants to borrow.
@@ -55,10 +54,6 @@ contract LoanMarketplace is LoanFactory {
             "lend: Incorrect Amount"
         );
         _sendFunds(loanIdToLoan[_proposalId].borrower, msg.value);
-        // (bool lendTx, ) = payable(loanIdToLoan[_proposalId].borrower).call{
-        //     value: msg.value
-        // }("");
-        // require(lendTx, "lend: lendTx failed");
         updateProposalOnLend(_proposalId);
     }
 
@@ -85,7 +80,6 @@ contract LoanMarketplace is LoanFactory {
         emit NewLoanFraction(_loanId, _percentage, _price);
     }
 
-
     /**
      * @notice - Enabels users to buy fractions of loans sold by
      * active lenders.
@@ -105,10 +99,6 @@ contract LoanMarketplace is LoanFactory {
         loanIdToLoan[_loanId].lenders.push(msg.sender);
         lenderPercentAmounts[_seller][_loanId] -= fractionPercent;
         lenderPercentAmounts[msg.sender][_loanId] += fractionPercent;
-        // (bool fractionSaleTx, ) = payable(_seller).call{value: fractionPrice}(
-        //     ""
-        // );
-        // require(fractionSaleTx, "buyLoanFraction: Tx failed");
         _sendFunds(_seller, msg.value);
         delete fractionalSales[_seller][_loanId];
         emit LoanFractionSold(
@@ -135,10 +125,6 @@ contract LoanMarketplace is LoanFactory {
             uint256 percentOfLoan = lenderPercentAmounts[lenders[i]][_loanId];
             uint256 amountOwed = (totalDebt * (percentOfLoan * 100)) / 10000;
             _sendFunds(lenders[i], amountOwed);
-            // (bool paybackTx, ) = payable(lenders[i]).call{value: amountOwed}(
-            //     ""
-            // );
-            // require(paybackTx, "paybackTx: Tx failed");
         }
         deleteLoan(_loanId, totalDebt);
     }
