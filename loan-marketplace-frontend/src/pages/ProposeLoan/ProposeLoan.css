@@ -12,9 +12,9 @@
   flex-wrap: wrap;
   margin-top: 6rem;
   padding: 4.5rem 8rem;
-  background-color: #00084e;
-  border: 1px solid crimson;
-  transition: all ease-in-out 1s;
+  border: 1px solid #86b740;
+  box-shadow: -4px -4px #86b740;
+  transition: all ease-in-out 0.9s;
 }
 
 .propose-loan-form:hover {
