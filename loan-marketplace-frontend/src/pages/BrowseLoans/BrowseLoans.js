@@ -5,30 +5,38 @@ import "./BrowseLoans.css";
 
 const BrowseLoans = () => {
   const [loanProposals, setLoanProposals] = useState([]);
+  const [fractLoans, setFractLoans] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const getLoanProposals = async () => {
+    (async () => {
       const proposals = await callgetLoanProposals();
       proposals.map((proposal) => {
-        setLoanProposals((loanProposals) => [...loanProposals, proposal]);
+        const { isProposed, isForSale } = proposal;
+        if (isProposed) {
+          setLoanProposals((loanProposals) => [...loanProposals, proposal]);
+        } else if (isForSale) {
+          setFractLoans((fractLoans) => [...fractLoans, setFractLoans]);
+        }
       });
-    };
-    getLoanProposals();
+    })();
     setIsLoading(false);
   }, []);
 
   return (
-    <section className="proposals">
-      {isLoading ? (
-        <h1>LOADING...</h1>
-      ) : (
-        loanProposals.map((proposalAttributes, idx) => {
-          if (proposalAttributes.lenders.length == 0)
-            return <LoanProposal key={idx} attributes={proposalAttributes} />;
-        })
+    <>
+      {!loanProposals.length && !loanProposals.length && !isLoading && (
+        <h1 style={{ color: "white" }}>Test</h1>
       )}
-    </section>
+      <section className="proposals">
+        {loanProposals.map((proposalAttributes, idx) => {
+          return <LoanProposal key={idx} attributes={proposalAttributes} />;
+        })}
+      </section>
+      <section className="fract-loans">
+        {fractLoans.map((fractLoan, idx) => {})}
+      </section>
+    </>
   );
 };
 
