@@ -44,4 +44,10 @@ const callgetLoanProposals = async () => {
   return await contract.getLoanProposals();
 };
 
-export { invokeProposeLoan, invokeLend, callgetLoanProposals };
+export {
+  invokeProposeLoan,
+  invokeLend,
+  callgetLoanProposals,
+  getContractInstance,
+  getProvider,
+};
