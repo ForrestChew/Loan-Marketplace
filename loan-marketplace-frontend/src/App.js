@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
 import ProposeLoan from "./pages/ProposeLoan/ProposeLoan";
 import BrowseLoans from "./pages/BrowseLoans/BrowseLoans";
-import Profile from "./pages/profile/Profile";
+import Profile from "./pages/Profile/Profile";
 import { HamburgerContext } from "./contexts/HamburgerContextProvider";
 import "./App.css";
 
