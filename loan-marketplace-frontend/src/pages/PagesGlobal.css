@@ -1,0 +1,26 @@
+.page-container {
+  display: flex;
+}
+
+.market-item-container {
+  color: white;
+  width: 50%;
+  border: 1px solid white;
+}
+
+.market-items {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid white;
+}
+
+@media screen and (max-width: 850px) {
+  .page-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .market-item-container {
+    width: 100%;
+  }
+}

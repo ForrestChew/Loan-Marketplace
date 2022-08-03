@@ -14,4 +14,3 @@ def main():
     deploy_loan_marketplace_contract()
 
 
-main()

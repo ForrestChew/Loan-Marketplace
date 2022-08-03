@@ -1,42 +1,47 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { callgetLoanProposals } from "../../contract-info/contract-interactions";
+import { useContractEvents } from "../../hooks/useContractEvents";
 import LoanProposal from "../../components/LoanProposal/LoanProposal";
-import "./BrowseLoans.css";
+import "../PagesGlobal.css";
 
 const BrowseLoans = () => {
   const [loanProposals, setLoanProposals] = useState([]);
   const [fractLoans, setFractLoans] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
-      const proposals = await callgetLoanProposals();
-      proposals.map((proposal) => {
-        const { isProposed, isForSale } = proposal;
-        if (isProposed) {
-          setLoanProposals((loanProposals) => [...loanProposals, proposal]);
-        } else if (isForSale) {
-          setFractLoans((fractLoans) => [...fractLoans, setFractLoans]);
-        }
-      });
-    })();
-    setIsLoading(false);
-  }, []);
+  const getProposalAndFractLoans = async () => {
+    const proposals = await callgetLoanProposals();
+    if (!proposals.length) return;
+    setLoanProposals([]);
+    setFractLoans([]);
+    proposals.map((proposal) => {
+      const { isProposed, isForSale } = proposal;
+      if (isProposed) {
+        setLoanProposals((loanProposals) => [...loanProposals, proposal]);
+      } else if (isForSale) {
+        setFractLoans((fractLoans) => [...fractLoans, setFractLoans]);
+      }
+    });
+  };
+
+  useContractEvents(getProposalAndFractLoans);
 
   return (
-    <>
-      {!loanProposals.length && !loanProposals.length && !isLoading && (
-        <h1 style={{ color: "white" }}>Test</h1>
-      )}
-      <section className="proposals">
-        {loanProposals.map((proposalAttributes, idx) => {
-          return <LoanProposal key={idx} attributes={proposalAttributes} />;
-        })}
-      </section>
-      <section className="fract-loans">
-        {fractLoans.map((fractLoan, idx) => {})}
-      </section>
-    </>
+    <div className="page-container">
+      <div className="market-item-container">
+        <h1 style={{ textAlign: "center" }}>Loan Proposals</h1>
+        <section className="market-items">
+          {loanProposals.map((proposalAttributes, idx) => {
+            return <LoanProposal key={idx} attributes={proposalAttributes} />;
+          })}
+        </section>
+      </div>
+      <div className="market-item-container">
+        <h1 style={{ textAlign: "center" }}>Fractional Loans</h1>
+        <section className="market-items">
+          {fractLoans.map((fractLoan, idx) => {})}
+        </section>
+      </div>
+    </div>
   );
 };
 

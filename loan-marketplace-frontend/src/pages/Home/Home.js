@@ -1,9 +1,6 @@
-import { useState, useEffect } from "react";
-import {
-  getProvider,
-  getContractInstance,
-  callgetLoanProposals,
-} from "../../contract-info/contract-interactions";
+import { useState } from "react";
+import { callgetLoanProposals } from "../../contract-info/contract-interactions";
+import { useContractEvents } from "../../hooks/useContractEvents";
 import MillAndHouse from "../../assets/MillAndHouse.Svg";
 import "./Home.css";
 
@@ -53,33 +50,7 @@ const Home = () => {
     });
   };
 
-  useEffect(() => {
-    updateMPInfoCounters();
-  }, []);
-
-  useEffect(() => {
-    const loanMarketplace = getContractInstance(getProvider());
-    loanMarketplace.on("LoanProposalCreated", () => {
-      updateMPInfoCounters();
-    });
-    return () => loanMarketplace.removeListener("LoanProposalCreated");
-  }, []);
-
-  useEffect(() => {
-    const loanMarketplace = getContractInstance(getProvider());
-    loanMarketplace.on("Lend", () => {
-      updateMPInfoCounters();
-    });
-    return () => loanMarketplace.removeListener("Lend");
-  }, []);
-
-  useEffect(() => {
-    const loanMarketplace = getContractInstance(getProvider());
-    loanMarketplace.on("DebtPaid", () => {
-      updateMPInfoCounters();
-    });
-    return () => loanMarketplace.removeListener("DebtPaid");
-  }, []);
+  useContractEvents(updateMPInfoCounters);
 
   return (
     <>

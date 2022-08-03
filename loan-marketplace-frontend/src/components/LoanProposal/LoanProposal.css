@@ -1,8 +1,9 @@
 .proposal-container {
   border: 1px solid black;
   color: white;
-  width: 25%;
-  margin: 2rem;
+  width: 28rem;
+  min-width: 20%;
+  margin: 1%;
   background-color: gray;
   transition: all ease-in-out 0.5s;
 }
@@ -15,6 +16,7 @@
 }
 
 table {
+  min-width: 100%;
   border: 1px solid black;
 }
 
@@ -44,4 +46,10 @@ th {
   background-color: #05386b;
   border-radius: 6px 6px 6px 6px;
   border: 1px solid white;
+}
+
+@media screen and (max-width: 1870px) {
+  .proposal-container {
+    width: 100%;
+  }
 }
